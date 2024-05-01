@@ -77,11 +77,14 @@ class build_matrices(setuptools.Command):
 
     def finalize_options(self) -> None:
         self.folder = "data"
-        self.output = os.path.join("scoring_matrices", "matrices.pxi")
+        self.output = os.path.join("scoring_matrices", "matrices.h")
         if self.matrices is not None:
             self.matrices = _split_multiline(self.matrices)
         else:
-            self.matrices = []
+            self.matrices = [
+                os.path.splitext(os.path.basename(mat))[0]
+                for mat in glob.glob(os.path.join(self.folder, "*.mat"))
+            ]
 
     def run(self):
         matrix_files = [ os.path.join(self.folder, f"{matrix}.mat") for matrix in self.matrices ]
@@ -107,9 +110,10 @@ class build_matrices(setuptools.Command):
             matrix_name = os.path.splitext(os.path.basename(matrix_file))[0].upper()
             matrices[matrix_name] = self._parse_matrix_file(matrix_file)
 
-        with open("scoring_matrices/matrices.h", "w") as dst:
+        with open(output_file, "w") as dst:
             dst.write("#include <stddef.h>\n")
             names = sorted(matrices.keys())
+            ids = [ name.replace(".", "_") for name in names ]
            
             dst.write(f"const char* _NAMES[{len(names) + 1}] = {{")
             for name in names:
@@ -128,18 +132,15 @@ class build_matrices(setuptools.Command):
                 dst.write(f'{len(alphabet)}, ')
             dst.write("-1 };\n")
 
-            for i, name in enumerate(sorted(matrices.keys())):
+            for i, (name, id_) in enumerate(zip(names, ids)):
                 alphabet, matrix = matrices[name]
                 nitems = len(matrix) * len(matrix)
-                dst.write(f"float _MATRIX_{name.upper()}[{nitems}] = {{ { ', '.join(map(repr, itertools.chain.from_iterable(matrix))) } }};\n")
+                dst.write(f"float _MATRIX_{id_}[{nitems}] = {{ { ', '.join(map(repr, itertools.chain.from_iterable(matrix))) } }};\n")
 
             dst.write(f"const float* _MATRICES[{len(names) + 1}] = {{")
-            for name in names:
-                dst.write(f'_MATRIX_{name.upper()}, ')
+            for id_ in ids:
+                dst.write(f'_MATRIX_{id_}, ')
             dst.write("NULL };\n")
-
-        # with open(output_file, "w") as dst:
-            # dst.write("cdef dict _SCORE_MATRICES = {}".format(json.dumps(matrices, indent=4)))
 
 
 class build_ext(_build_ext):
