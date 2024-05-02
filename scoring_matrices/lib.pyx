@@ -6,10 +6,11 @@ from libc.math cimport INFINITY
 from libc.stdlib cimport realloc, free
 from libc.string cimport memcpy
 
-import pickle
-import struct
-
 from .matrices cimport _NAMES, _ALPHABETS, _SIZES, _MATRICES
+
+import io
+import pickle
+
 
 cdef dict _INDICES = {
     _NAMES[i].decode('ascii'):i
@@ -60,12 +61,34 @@ cdef class ScoringMatrix:
         return cls(rows, alphabet=alphabet, name=name)
 
     @classmethod
-    def load(cls, object file):
-        raise NotImplementedError
+    def load(cls, object file, str name = None):
+        # ignore lines with comments
+        lines = filter(lambda line: not line.startswith("#"), file)
+
+        # get the header line with the alphabet
+        header = next(lines, None)
+        if header is None:
+            raise ValueError("Missing expected header line")
+        alphabet = ''.join(header.split())
+
+        # get the numerical matrix
+        matrix = []
+        for i, line in enumerate(lines):
+            row = line.split()
+            try:
+                float(row[0])
+            except ValueError:
+                if row[0] != alphabet[i]:
+                    raise ValueError(f"Matrix must be symmetric (expected row {alphabet[i]!r}, got {row[0]!r})") from None
+                row = row[1:]
+            matrix.append(list(map(float, row)))
+
+        # create the object with default constructor
+        return cls(matrix, alphabet=alphabet, name=name)
 
     @classmethod
-    def loads(cls, str text):
-        raise NotImplementedError
+    def loads(cls, str text, str name = None):
+        return cls.load(io.StringIO(text))
 
     def __cinit__(self):
         self._data = NULL
