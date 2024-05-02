@@ -206,16 +206,18 @@ cdef class ScoringMatrix:
         cdef size_t i
         cdef float  m = INFINITY
 
-        for i in range(self._size * self._size):
-            if self._data[i] < m:
-                m = self._data[i]
+        with nogil:
+            for i in range(self._size * self._size):
+                if self._data[i] < m:
+                    m = self._data[i]
         return m
 
     cpdef float max(self):
         cdef size_t i
         cdef float  m = -INFINITY
 
-        for i in range(self._size * self._size):
-            if self._data[i] > m:
-                m = self._data[i]
+        with nogil:
+            for i in range(self._size * self._size):
+                if self._data[i] > m:
+                    m = self._data[i]
         return m
