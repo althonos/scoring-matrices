@@ -252,15 +252,7 @@ cdef class ScoringMatrix:
         raise NotImplementedError
 
     cpdef ScoringMatrix copy(self):
-        cdef ScoringMatrix copy
-
-        copy = ScoringMatrix.__new__(ScoringMatrix)
-        copy.name = self.name
-        copy.alphabet = self.alphabet
-        with nogil:
-            copy._allocate(self._size)
-            memcpy(copy._data, self._data, self._size * self._size * sizeof(float))
-        return copy
+        return type(self)( self, alphabet=self.alphabet, name=self.name)
 
     cpdef float min(self):
         cdef size_t i
