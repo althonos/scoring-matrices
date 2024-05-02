@@ -2,7 +2,7 @@ cimport cython
 from cpython.memoryview cimport PyMemoryView_FromMemory
 from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE
 
-from libc.math cimport INFINITY
+from libc.math cimport INFINITY, roundf
 from libc.stdlib cimport realloc, free
 from libc.string cimport memcpy
 
@@ -163,7 +163,7 @@ cdef class ScoringMatrix:
         buffer.buf = self._data
         buffer.internal = NULL
         buffer.itemsize = sizeof(float)
-        buffer.len = self._size * self._size * sizeof(float)
+        buffer.len = self._nitems * sizeof(float)
         buffer.ndim = 2
         buffer.obj = self
         buffer.readonly = 1
@@ -245,6 +245,7 @@ cdef class ScoringMatrix:
             raise MemoryError("Failed to allocate matrix")
 
         self._size = self._shape[0] = self._shape[1] = size
+        self._nitems = self._size * self._size
         for i in range(size):
             self._matrix[i] = &self._data[i * self._size]
 
@@ -259,22 +260,52 @@ cdef class ScoringMatrix:
     cpdef ScoringMatrix copy(self):
         return type(self)( self, alphabet=self.alphabet, name=self.name)
 
+    cpdef bint is_integer(self):
+        """Test whether the scoring matrix is an integer matrix.
+
+        Example:
+            >>> blosum62 = ScoringMatrix.builtin("BLOSUM62")
+            >>> blosum62.is_integer()
+            True
+            >>> benner6 = ScoringMatrix.builtin("BENNER6")
+            >>> benner6.is_integer()
+            False
+
+        """
+        assert self._data != NULL
+
+        cdef size_t i
+        cdef float  x
+        cdef bint   integer = True
+
+        with nogil:
+            for i in range(self._nitems):
+                x = self._data[i]
+                if roundf(x) != x:
+                    integer = False
+                    break
+        return integer
+
     cpdef float min(self):
+        assert self._data != NULL
+
         cdef size_t i
         cdef float  m = INFINITY
 
         with nogil:
-            for i in range(self._size * self._size):
+            for i in range(self._nitems):
                 if self._data[i] < m:
                     m = self._data[i]
         return m
 
     cpdef float max(self):
+        assert self._data != NULL
+        
         cdef size_t i
         cdef float  m = -INFINITY
 
         with nogil:
-            for i in range(self._size * self._size):
+            for i in range(self._nitems):
                 if self._data[i] > m:
                     m = self._data[i]
         return m
