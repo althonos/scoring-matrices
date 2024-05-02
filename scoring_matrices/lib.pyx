@@ -136,7 +136,44 @@ cdef class ScoringMatrix:
         return self._size
 
     def __getitem__(self, object item):
-        raise NotImplementedError
+        cdef ssize_t index_
+        cdef list    row
+
+        if isinstance(item, str) and len(item) == 1:
+            try:
+                item = self.alphabet.index(item)
+            except ValueError:
+                raise IndexError(f"{item!r} not in matrix alphabet ({self.alphabet!r})") from None
+
+        if isinstance(item, int):
+            index_ = item
+            if index_ < 0:
+                index_ += self._size
+            if index_ < 0 or index_ >= self._size:
+                raise IndexError(item)
+            row = []
+            for i in range(self._size):
+                row.append(self._matrix[index_][i])
+            return row
+
+        elif isinstance(item, tuple):
+            if len(item) > 2:
+                raise IndexError(f"too many indices for array: array is 2-dimensional, but {len(item)!r} were indexed")
+            i, j = item
+            if isinstance(i, str) and len(i) == 1:
+                try:
+                    i = self.alphabet.index(i)
+                except ValueError:
+                    raise IndexError(f"{i!r} not in matrix alphabet ({self.alphabet!r})") from None
+            if isinstance(j, str) and len(j) == 1:
+                try:
+                    j = self.alphabet.index(j)
+                except ValueError:
+                    raise IndexError(f"{j!r} not in matrix alphabet ({self.alphabet!r})") from None
+            if isinstance(i, int) and isinstance(j, int):
+                return self._matrix[i][j]
+
+        raise TypeError(item)
 
     def __eq__(self, object other):
         assert self._data != NULL
