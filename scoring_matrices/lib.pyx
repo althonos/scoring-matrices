@@ -94,6 +94,7 @@ cdef class ScoringMatrix:
         self._data = NULL
         self._matrix = NULL
         self._size = 0
+        self._shape[0] = self._shape[1] = 0
 
     def __init__(
         self,
@@ -153,7 +154,22 @@ cdef class ScoringMatrix:
         return (type(self), (matrix, self.alphabet, self.name))
 
     def __getbuffer__(self, Py_buffer* buffer, int flags):
-        raise NotImplementedError
+        assert self._data != NULL
+
+        if flags & PyBUF_FORMAT:
+            buffer.format = b"f"
+        else:
+            buffer.format = NULL
+        buffer.buf = self._data
+        buffer.internal = NULL
+        buffer.itemsize = sizeof(float)
+        buffer.len = self._size * self._size * sizeof(float)
+        buffer.ndim = 2
+        buffer.obj = self
+        buffer.readonly = 1
+        buffer.shape = <Py_ssize_t*> &self._shape
+        buffer.suboffsets = NULL
+        buffer.strides = NULL
 
     def __len__(self):
         return self._size
@@ -217,17 +233,6 @@ cdef class ScoringMatrix:
                     return False
         return True
 
-    @property
-    def matrix(self):
-        """`list` of `list` of `float`: The score matrix.
-        """
-        assert self._data != NULL
-        assert self._matrix != NULL
-        return [
-            [ self._matrix[i][j] for j in range(self._size) ]
-            for i in range(self._size)
-        ]
-
     cdef int _allocate(self, size_t size) except 1 nogil:
         cdef size_t i
 
@@ -239,7 +244,7 @@ cdef class ScoringMatrix:
         if self._matrix is NULL:
             raise MemoryError("Failed to allocate matrix")
 
-        self._size = size
+        self._size = self._shape[0] = self._shape[1] = size
         for i in range(size):
             self._matrix[i] = &self._data[i * self._size]
 

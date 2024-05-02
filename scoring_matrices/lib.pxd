@@ -2,7 +2,8 @@ cdef class ScoringMatrix:
     cdef readonly str name
     cdef readonly str alphabet
 
-    cdef size_t  _size
+    cdef size_t        _size
+    cdef Py_ssize_t[2] _shape
 
     cdef float*  _data
     cdef float** _matrix
