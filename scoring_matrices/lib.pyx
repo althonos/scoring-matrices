@@ -133,7 +133,7 @@ cdef class ScoringMatrix:
 
     def __repr__(self):
         cdef str ty    = type(self).__name__
-        cdef list args = [repr(self.matrix)]
+        cdef list args = [repr(list(self))]
 
         if self.alphabet != ScoringMatrix.DEFAULT_ALPHABET:
             args.append(f"alphabet={self.alphabet!r}")
@@ -258,7 +258,7 @@ cdef class ScoringMatrix:
         raise NotImplementedError
 
     cpdef ScoringMatrix copy(self):
-        return type(self)( self, alphabet=self.alphabet, name=self.name)
+        return type(self)(self, alphabet=self.alphabet, name=self.name)
 
     cpdef bint is_integer(self):
         """Test whether the scoring matrix is an integer matrix.
@@ -309,3 +309,28 @@ cdef class ScoringMatrix:
                 if self._data[i] > m:
                     m = self._data[i]
         return m
+
+    cpdef ScoringMatrix shuffle(self, str alphabet):
+        """Shuffle the matrix using the new given alphabet.
+
+        Raises:
+            `KeyError`: When some required alphabet letters are missing from
+                the source matrix alphabet.
+
+        """
+        cdef size_t i
+        cdef list   indices = []
+        cdef list   matrix  = []
+
+        for x in alphabet:
+            try:
+                indices.append(self.alphabet.index(x))
+            except ValueError:
+                raise KeyError(f"new alphabet contains unknown letter: {x!r}") from None
+
+        for letter in alphabet:
+            row = self[letter]
+            matrix.append([row[j] for j in indices])
+
+        name = self.name if len(alphabet) == len(self.alphabet) else None
+        return type(self)(matrix, alphabet=alphabet, name=name)

@@ -15,3 +15,4 @@ cdef class ScoringMatrix:
     cpdef float min(self)
     cpdef float max(self)
     cpdef ScoringMatrix copy(self)
+    cpdef ScoringMatrix shuffle(self, str alphabet)
