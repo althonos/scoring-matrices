@@ -33,6 +33,7 @@ class TestScoringMatrix(unittest.TestCase):
             self.assertEqual(len(row), 24)
 
     @unittest.skipUnless(sys.implementation.name == "cpython", "memoryview not supported")
+    @unittest.skipUnless(sys.version_info >= (3, 9), "memoryview not supported")
     def test_memoryview(self):
         aa = ScoringMatrix.from_name("BLOSUM50")
         mem = memoryview(aa)
