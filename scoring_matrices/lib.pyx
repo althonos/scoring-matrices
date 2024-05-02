@@ -158,7 +158,7 @@ cdef class ScoringMatrix:
         if protocol >= 5:
             matrix = pickle.PickleBuffer(self)
         else:
-            matrix = self.matrix
+            matrix = list(self)
         return (type(self), (matrix, self.alphabet, self.name))
 
     def __getbuffer__(self, Py_buffer* buffer, int flags):
@@ -227,7 +227,6 @@ cdef class ScoringMatrix:
         assert self._matrix != NULL
 
         cdef size_t        i
-        cdef size_t        j
         cdef ScoringMatrix other_
 
         if not isinstance(other, ScoringMatrix):
@@ -235,10 +234,9 @@ cdef class ScoringMatrix:
         other_ = other
         if other_.alphabet != self.alphabet:
             return False
-        for i in range(self._size):
-            for j in range(self._size):
-                if self.matrix[i][j] != other_.matrix[i][j]:
-                    return False
+        for i in range(self._nitems):
+            if self._data[i] != other_._data[i]:
+                return False
         return True
 
     # --- Private methods ------------------------------------------------------
