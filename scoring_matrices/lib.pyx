@@ -24,15 +24,17 @@ cdef class ScoringMatrix:
     DEFAULT_ALPHABET = "ARNDCQEGHILKMFPSTWYVBZX*"
     BUILTIN_MATRICES = frozenset(_INDICES)
 
+    # --- Constructors ---------------------------------------------------------
+
     @classmethod
-    def builtin(cls, str name not None = "BLOSUM62"):
-        """Load a built-in scoring matrix.
+    def from_name(cls, str name not None = "BLOSUM62"):
+        """Load a built-in scoring matrix by name.
 
         Arguments:
             name (`str`): The name of the scoring matrix.
 
         Example:
-            >>> blosum62 = ScoringMatrix.builtin("BLOSUM62")
+            >>> blosum62 = ScoringMatrix.from_name("BLOSUM62")
 
         Raises:
             `ValueError`: When no scoring matrix with the given ``name``
@@ -61,7 +63,9 @@ cdef class ScoringMatrix:
         return cls(rows, alphabet=alphabet, name=name)
 
     @classmethod
-    def load(cls, object file, str name = None):
+    def from_file(cls, object file, str name = None):
+        """Load a scoring matrix from a file-like object.
+        """
         # ignore lines with comments
         lines = filter(lambda line: not line.startswith("#"), file)
 
@@ -87,8 +91,12 @@ cdef class ScoringMatrix:
         return cls(matrix, alphabet=alphabet, name=name)
 
     @classmethod
-    def loads(cls, str text, str name = None):
-        return cls.load(io.StringIO(text))
+    def from_str(cls, str text, str name = None):
+        """Load a scoring matrix from a string.
+        """
+        return cls.from_file(io.StringIO(text))
+
+    # --- Magic methods --------------------------------------------------------
 
     def __cinit__(self):
         self._data = NULL
@@ -102,7 +110,7 @@ cdef class ScoringMatrix:
         str alphabet not None = DEFAULT_ALPHABET,
         str name = None,
     ):
-        """Create a new scoring matrix object.
+        """Create a new scoring matrix.
         """
         cdef ssize_t i
         cdef ssize_t j
@@ -233,6 +241,8 @@ cdef class ScoringMatrix:
                     return False
         return True
 
+    # --- Private methods ------------------------------------------------------
+    
     cdef int _allocate(self, size_t size) except 1 nogil:
         cdef size_t i
 
@@ -251,6 +261,8 @@ cdef class ScoringMatrix:
 
         return 0
 
+    # --- Public methods -------------------------------------------------------
+
     def dump(cls, object file):
         raise NotImplementedError
 
@@ -264,10 +276,10 @@ cdef class ScoringMatrix:
         """Test whether the scoring matrix is an integer matrix.
 
         Example:
-            >>> blosum62 = ScoringMatrix.builtin("BLOSUM62")
+            >>> blosum62 = ScoringMatrix.from_name("BLOSUM62")
             >>> blosum62.is_integer()
             True
-            >>> benner6 = ScoringMatrix.builtin("BENNER6")
+            >>> benner6 = ScoringMatrix.from_name("BENNER6")
             >>> benner6.is_integer()
             False
 
