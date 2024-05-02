@@ -2,21 +2,21 @@
 
 *Dependency free, [Cython](https://cython.org/)-compatible scoring matrices to use with biological sequences.*
 
-<!-- [![Actions](https://img.shields.io/github/actions/workflow/status/althonos/scoring-matrices/test.yml?branch=main&logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/scoring-matrices/actions) -->
-<!-- [![Coverage](https://img.shields.io/codecov/c/gh/althonos/scoring-matrices?style=flat-square&maxAge=3600&logo=codecov)](https://codecov.io/gh/althonos/scoring-matrices/) -->
-<!-- [![License](https://img.shields.io/badge/license-GPLv3+-blue.svg?style=flat-square&maxAge=2678400)](https://choosealicense.com/licenses/gpl-3.0/) -->
-<!-- [![PyPI](https://img.shields.io/pypi/v/scoring-matrices.svg?style=flat-square&maxAge=3600&logo=PyPI)](https://pypi.org/project/scoring-matrices) -->
-<!-- [![Bioconda](https://img.shields.io/conda/vn/bioconda/scoring-matrices?style=flat-square&maxAge=3600&logo=anaconda)](https://anaconda.org/bioconda/scoring-matrices) -->
-<!-- [![AUR](https://img.shields.io/aur/version/python-scoring-matrices?logo=archlinux&style=flat-square&maxAge=3600)](https://aur.archlinux.org/packages/python-scoring-matrices) -->
-<!-- [![Wheel](https://img.shields.io/pypi/wheel/scoring-matrices.svg?style=flat-square&maxAge=3600)](https://pypi.org/project/scoring-matrices/#files) -->
-<!-- [![Python Versions](https://img.shields.io/pypi/pyversions/scoring-matrices.svg?style=flat-square&maxAge=600&logo=python)](https://pypi.org/project/scoring-matrices/#files) -->
-<!-- [![Python Implementations](https://img.shields.io/pypi/implementation/scoring-matrices.svg?style=flat-square&maxAge=600&label=impl)](https://pypi.org/project/scoring-matrices/#files) -->
-<!-- [![Source](https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/scoring-matrices/) -->
-<!-- [![Mirror](https://img.shields.io/badge/mirror-EMBL-009f4d?style=flat-square&maxAge=2678400)](https://git.embl.de/larralde/scoring-matrices/) -->
-<!-- [![Issues](https://img.shields.io/github/issues/althonos/scoring-matrices.svg?style=flat-square&maxAge=600)](https://github.com/althonos/scoring-matrices/issues) -->
-<!-- [![Docs](https://img.shields.io/readthedocs/scoring-matrices/latest?style=flat-square&maxAge=600)](https://scoring-matrices.readthedocs.io) -->
-<!-- [![Changelog](https://img.shields.io/badge/keep%20a-changelog-8A0707.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/scoring-matrices/blob/main/CHANGELOG.md) -->
-<!-- [![Downloads](https://img.shields.io/pypi/dm/scoring-matrices?style=flat-square&color=303f9f&maxAge=86400&label=downloads)](https://pepy.tech/project/scoring-matrices) -->
+[![Actions](https://img.shields.io/github/actions/workflow/status/althonos/scoring-matrices/test.yml?branch=main&logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/scoring-matrices/actions)
+[![Coverage](https://img.shields.io/codecov/c/gh/althonos/scoring-matrices?style=flat-square&maxAge=3600&logo=codecov)](https://codecov.io/gh/althonos/scoring-matrices/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square&maxAge=2678400)](https://choosealicense.com/licenses/mit/)
+[![PyPI](https://img.shields.io/pypi/v/scoring-matrices.svg?style=flat-square&maxAge=3600&logo=PyPI)](https://pypi.org/project/scoring-matrices)
+[![Bioconda](https://img.shields.io/conda/vn/bioconda/scoring-matrices?style=flat-square&maxAge=3600&logo=anaconda)](https://anaconda.org/bioconda/scoring-matrices)
+[![AUR](https://img.shields.io/aur/version/python-scoring-matrices?logo=archlinux&style=flat-square&maxAge=3600)](https://aur.archlinux.org/packages/python-scoring-matrices)
+[![Wheel](https://img.shields.io/pypi/wheel/scoring-matrices.svg?style=flat-square&maxAge=3600)](https://pypi.org/project/scoring-matrices/#files)
+[![Python Versions](https://img.shields.io/pypi/pyversions/scoring-matrices.svg?style=flat-square&maxAge=600&logo=python)](https://pypi.org/project/scoring-matrices/#files)
+[![Python Implementations](https://img.shields.io/pypi/implementation/scoring-matrices.svg?style=flat-square&maxAge=600&label=impl)](https://pypi.org/project/scoring-matrices/#files)
+[![Source](https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/scoring-matrices/)
+[![Mirror](https://img.shields.io/badge/mirror-EMBL-009f4d?style=flat-square&maxAge=2678400)](https://git.embl.de/larralde/scoring-matrices/)
+[![Issues](https://img.shields.io/github/issues/althonos/scoring-matrices.svg?style=flat-square&maxAge=600)](https://github.com/althonos/scoring-matrices/issues)
+[![Docs](https://img.shields.io/readthedocs/scoring-matrices/latest?style=flat-square&maxAge=600)](https://scoring-matrices.readthedocs.io)
+[![Changelog](https://img.shields.io/badge/keep%20a-changelog-8A0707.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/scoring-matrices/blob/main/CHANGELOG.md)
+[![Downloads](https://img.shields.io/pypi/dm/scoring-matrices?style=flat-square&color=303f9f&maxAge=86400&label=downloads)](https://pepy.tech/project/scoring-matrices)
 
 ## 🗺️ Overview
 
@@ -47,33 +47,30 @@ to handle and distribute common substitution matrices:
 
 ## 💡 Usage
 
-Import the `ScoringMatrix` class from the installed module:
-```python
-from scoring_matrices import ScoringMatrix
-```
-
-Load one of the built-in matrices:
-```python
-blosum62 = ScoringMatrix.builtin("BLOSUM62")
-```
-
-Get individual matrix weights either by index or by alphabet letter:
-```python
-x = blosum62[0, 0]
-y = blosum62['A', 'A']
-```
-
-Get a row of the matrix either by index or by alphabet letter:
-```python
-row_x = blosum62[0]
-row_y = blosum62['A']
-```
+- Import the `ScoringMatrix` class from the installed module:
+  ```python
+  from scoring_matrices import ScoringMatrix
+  ```
+- Load one of the built-in matrices:
+  ```python
+  blosum62 = ScoringMatrix.from_name("BLOSUM62")
+  ```
+- Get individual matrix weights either by index or by alphabet letter:
+  ```python
+  x = blosum62[0, 0]
+  y = blosum62['A', 'A']
+  ```
+- Get a row of the matrix either by index or by alphabet letter:
+  ```python
+  row_x = blosum62[0]
+  row_y = blosum62['A']
+  ```
 
 ### Cython
 
 The matrix data can be accessed as a raw `float` pointer or a [typed memoryview](https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html):
 ```cython
-cdef ScoringMatrix matrix = ScoringMatrix.builtin("VTML80")
+cdef ScoringMatrix matrix = ScoringMatrix.from_name("VTML80")
 cdef float** data_ptr = matrix.data
 cdef float[:, :] data_mem = matrix
 ```
