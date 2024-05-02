@@ -98,7 +98,7 @@ class build_matrices(setuptools.Command):
             )
             letters = ''.join(next(lines).split())
             matrix = [
-                list(map(int, line.strip().split()[1:]))
+                list(map(float, line.strip().split()[1:]))
                 for line in map(str.strip, lines)
                 if line
             ]
