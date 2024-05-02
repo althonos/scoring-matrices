@@ -28,10 +28,15 @@ modeling.
 The `scoring-matrices` packages is a dependency-free, batteries included library
 to handle and distribute common substitution matrices:
 
-- **no external dependencies**: You don't need the whole Biopython ecosystem
-  just to access to the matrix weights.
-- **common matrices**: Most common matrices, such as those used by the NCBI 
-  BLAST+ suite, including **PAM**, **BLOSUM**, **VTML**
+- **no external dependencies**: The matrices are distributed as-is: you don't 
+  need the whole [Biopython](https://biopython.org) ecosystem, or even 
+  [NumPy](https://numpy.org/).
+- **common matrices**: The package distributes most common matrices, such as 
+  those used by the NCBI BLAST+ suite, including:
+  - [*PAM*](https://en.wikipedia.org/wiki/Point_accepted_mutation#) matrices by Dayhoff *et al.* (1978).
+  - [*BLOSUM*](https://en.wikipedia.org/wiki/BLOSUM) matrices by Henikoff & Henikoff (1992).
+  - *VTML* matrices by Muller *et al.* (2002).
+  - *BENNER* matrices by Benner *et al.* (1994).
 - **Cython compatibility**: The `ScoringMatrix` is a Cython class that can be
   inherited, and the matrix data can be accessed as either a raw pointer, or
   a [typed memoryview](https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html).
