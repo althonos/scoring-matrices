@@ -41,6 +41,39 @@ to handle and distribute common substitution matrices:
 
 `scoring-matrices` is available for all modern Python versions (3.6+).
 
+## 💡 Usage
+
+Import the `ScoringMatrix` class from the installed module:
+```python
+from scoring_matrices import ScoringMatrix
+```
+
+Load one of the built-in matrices:
+```python
+blosum62 = ScoringMatrix.builtin("BLOSUM62")
+```
+
+Get individual matrix weights either by index or by alphabet letter:
+```python
+x = blosum62[0, 0]
+y = blosum62['A', 'A']
+```
+
+Get a row of the matrix either by index or by alphabet letter:
+```python
+row_x = blosum62[0]
+row_y = blosum62['A']
+```
+
+### Cython
+
+The matrix data can be accessed as a raw `float` pointer or a [typed memoryview](https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html):
+```cython
+cdef ScoringMatrix matrix = ScoringMatrix.builtin("VTML80")
+cdef float** data_ptr = matrix.data
+cdef float[:, :] data_mem = matrix
+```
+
 ## 💭 Feedback
 
 ### ⚠️ Issue Tracker
