@@ -1,3 +1,6 @@
+# distutils: language = c
+# cython: language_level=3, linetrace=True, binding=True
+
 cimport cython
 from cpython.memoryview cimport PyMemoryView_FromMemory
 from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE
@@ -262,12 +265,16 @@ cdef class ScoringMatrix:
     # --- Public methods -------------------------------------------------------
 
     cdef const float* data(self) except NULL nogil:
+        """Get the matrix scores as a dense array.
+        """
         if self._data == NULL:
             with gil:
                 raise RuntimeError("uninitialized scoring matrix")
         return <const float*> self._data
 
     cdef const float** matrix(self) except NULL nogil:
+        """Get the matrix scores as an array of pointers.
+        """
         if self._matrix == NULL:
             with gil:
                 raise RuntimeError("uninitialized scoring matrix")
@@ -280,6 +287,8 @@ cdef class ScoringMatrix:
         raise NotImplementedError
 
     cpdef ScoringMatrix copy(self):
+        """Get a copy of the matrix.
+        """
         return type(self)(self, alphabet=self.alphabet, name=self.name)
 
     cpdef bint is_integer(self):
@@ -309,6 +318,8 @@ cdef class ScoringMatrix:
         return integer
 
     cpdef float min(self):
+        """Get the minimum score of the scoring matrix.
+        """
         assert self._data != NULL
 
         cdef size_t i
@@ -321,6 +332,8 @@ cdef class ScoringMatrix:
         return m
 
     cpdef float max(self):
+        """Get the maximum score of the scoring matrix.
+        """
         assert self._data != NULL
         
         cdef size_t i
@@ -335,9 +348,28 @@ cdef class ScoringMatrix:
     cpdef ScoringMatrix shuffle(self, str alphabet):
         """Shuffle the matrix using the new given alphabet.
 
+        The matrix name is retained only when the provided ``alphabet`` is a
+        permutation of the current alphabet, e.g. there is no loss of data.
+
+        Arguments:
+            alphabet (`str`): The new alphabet to use for the columns. It 
+                must be a subset of ``self.alphabet``.
+
         Raises:
             `KeyError`: When some required alphabet letters are missing from
                 the source matrix alphabet.
+
+        Example:
+            >>> m1 = ScoringMatrix.from_name("BLOSUM62")
+            >>> m1[1, 1]
+            5.0
+            >>> m1['R', 'R']
+            5.0
+            >>> m2 = m1.shuffle("ABCDEFGHIKLMNPQRSTVWXYZ*")
+            >>> m2[1, 1]
+            4.0
+            >>> m2['R', 'R']
+            5.0
 
         """
         cdef size_t i

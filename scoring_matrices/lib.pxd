@@ -1,3 +1,6 @@
+# distutils: language = c
+# cython: language_level=3, linetrace=True, binding=True
+
 cdef class ScoringMatrix:
     cdef readonly str name
     cdef readonly str alphabet
