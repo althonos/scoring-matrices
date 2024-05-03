@@ -47,6 +47,8 @@ to handle and distribute common substitution matrices:
 
 ## 💡 Usage
 
+### Python
+
 - Import the `ScoringMatrix` class from the installed module:
   ```python
   from scoring_matrices import ScoringMatrix
@@ -68,12 +70,22 @@ to handle and distribute common substitution matrices:
 
 ### Cython
 
-The matrix data can be accessed as a raw `float` pointer or a [typed memoryview](https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html):
-```cython
-cdef ScoringMatrix matrix = ScoringMatrix.from_name("VTML80")
-cdef float** data_ptr = matrix.data
-cdef float[:, :] data_mem = matrix
-```
+- Access the matrix weights as raw pointers to constant data:
+  ```cython
+  from scoring_matrices cimport ScoringMatrix
+
+  cdef ScoringMatrix blosum = ScoringMatrix.from_name("BLOSUM62")
+  cdef const float*  data   = blosum.data()    # dense array
+  cdef const float** matrix = blosum.matrix()  # array of pointers
+  ```
+- Access the `ScoringMatrix` weights as a [typed memoryview](https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html) 
+  using the *buffer protocol* in more recents versions of Python:
+  ```cython
+  from scoring_matrices cimport ScoringMatrix
+
+  cdef ScoringMatrix     blosum  = ScoringMatrix.from_name("BLOSUM62")
+  cdef const float[:, :] weights = blosum
+  ```
 
 ## 💭 Feedback
 
