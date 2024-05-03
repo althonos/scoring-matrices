@@ -319,6 +319,12 @@ cdef class ScoringMatrix:
 
     cpdef float min(self):
         """Get the minimum score of the scoring matrix.
+
+        Example:
+            >>> blosum62 = ScoringMatrix.from_name("BLOSUM62")
+            >>> blosum62.min()
+            -4.0
+
         """
         assert self._data != NULL
 
@@ -333,6 +339,12 @@ cdef class ScoringMatrix:
 
     cpdef float max(self):
         """Get the maximum score of the scoring matrix.
+
+        Example:
+            >>> blosum62 = ScoringMatrix.from_name("BLOSUM62")
+            >>> blosum62.max()
+            11.0
+
         """
         assert self._data != NULL
         

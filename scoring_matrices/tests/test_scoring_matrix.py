@@ -23,6 +23,33 @@ class TestScoringMatrix(unittest.TestCase):
         with self.assertRaises(ValueError):
             aa = ScoringMatrix.from_name("nonsensical")
 
+    def test_from_str(self):
+        m1 = ScoringMatrix.from_str(
+            """
+                A   T   G   C
+            A   5  -4  -4  -4
+            T  -4   5  -4  -4
+            G  -4  -4   5  -4
+            C  -4  -4  -4   5
+            """.strip()
+        )
+        self.assertEqual(m1.alphabet, "ATGC")
+        self.assertEqual(m1['T', 'A'], -4.0)
+        self.assertEqual(m1['A', 'A'], 5.0)
+
+        m2 = ScoringMatrix.from_str(
+            """
+             A   T   G   C
+             5  -4  -4  -4
+            -4   5  -4  -4
+            -4  -4   5  -4
+            -4  -4  -4   5
+            """.strip()
+        )
+        self.assertEqual(m2.alphabet, "ATGC")
+        self.assertEqual(m2['T', 'A'], -4.0)
+        self.assertEqual(m2['A', 'A'], 5.0)
+
     def test_list(self):
         aa = ScoringMatrix.from_name("BLOSUM50")
         matrix = list(aa)
@@ -40,7 +67,7 @@ class TestScoringMatrix(unittest.TestCase):
         self.assertEqual(mem.shape, (24, 24))
         self.assertEqual(mem[0, 0], 5.0) # A <-> A
         self.assertEqual(mem[6, 6], 6.0) # E <-> E
-        
+
     def test_init_invalid_length(self):
         with self.assertRaises(ValueError):
             m = ScoringMatrix(
