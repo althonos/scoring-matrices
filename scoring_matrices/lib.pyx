@@ -5,7 +5,7 @@ cimport cython
 from cpython.memoryview cimport PyMemoryView_FromMemory
 from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE
 
-from libc.math cimport INFINITY, roundf
+from libc.math cimport INFINITY, lrintf
 from libc.stdlib cimport realloc, free
 from libc.string cimport memcpy
 
@@ -312,7 +312,7 @@ cdef class ScoringMatrix:
         with nogil:
             for i in range(self._nitems):
                 x = self._data[i]
-                if roundf(x) != x:
+                if lrintf(x) != x:
                     integer = False
                     break
         return integer
