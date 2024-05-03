@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.1.1...HEAD
+
+
+## [v0.1.1] - 2024-05-03
+[v0.1.1]: https://github.com/althonos/scoring-matrices/compare/v0.1.0...v0.1.1
+
+### Fixed
+- Compilation of Python Limited API wheels.
 
 
 ## [v0.1.0] - 2024-05-03
