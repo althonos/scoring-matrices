@@ -280,12 +280,6 @@ cdef class ScoringMatrix:
                 raise RuntimeError("uninitialized scoring matrix")
         return <const float**> self._matrix
 
-    def dump(cls, object file):
-        raise NotImplementedError
-
-    def dumps(cls):
-        raise NotImplementedError
-
     cpdef ScoringMatrix copy(self):
         """Get a copy of the matrix.
         """
