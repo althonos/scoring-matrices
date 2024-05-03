@@ -100,7 +100,11 @@ in the [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## ⚖️ License
 
-This library is provided under the [MIT License](https://choosealicense.com/licenses/mit/).
+This library is provided under the [MIT License](https://choosealicense.com/licenses/mit/). 
+Matrices were collected from the [MMseqs2](https://github.com/soedinglab/MMseqs2), 
+[Biopython](https://github.com/biopython/biopython/tree/master/Bio/Align/substitution_matrices/data)
+and [NCBI BLAST+](https://ftp.ncbi.nih.gov/blast/matrices/) sources and are believed to 
+be in the public domain.
 
 *This project was developed by [Martin Larralde](https://github.com/althonos/) 
 during his PhD project at the [Leiden University Medical Center](https://www.lumc.nl/en/) in the [Zeller team](https://github.com/zellerlab).*
