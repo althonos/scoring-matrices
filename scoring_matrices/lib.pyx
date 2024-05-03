@@ -261,6 +261,18 @@ cdef class ScoringMatrix:
 
     # --- Public methods -------------------------------------------------------
 
+    cdef const float* data(self) except NULL nogil:
+        if self._data == NULL:
+            with gil:
+                raise RuntimeError("uninitialized scoring matrix")
+        return <const float*> self._data
+
+    cdef const float** matrix(self) except NULL nogil:
+        if self._matrix == NULL:
+            with gil:
+                raise RuntimeError("uninitialized scoring matrix")
+        return <const float**> self._matrix
+
     def dump(cls, object file):
         raise NotImplementedError
 

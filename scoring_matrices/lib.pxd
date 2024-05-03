@@ -11,6 +11,9 @@ cdef class ScoringMatrix:
 
     cdef int _allocate(self, size_t length) except 1 nogil
 
+    cdef const float* data(self) except NULL nogil
+    cdef const float** matrix(self) except NULL nogil    
+
     cpdef bint is_integer(self)
     cpdef float min(self)
     cpdef float max(self)
