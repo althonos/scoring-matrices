@@ -274,9 +274,8 @@ class build_ext(_build_ext):
         else:
             cython_args["compiler_directives"]["boundscheck"] = False
             cython_args["compiler_directives"]["wraparound"] = False
-
-        # use limited API to avoid compiling many different wheels
-        self.compiler.define_macro("CYTHON_LIMITED_API", 1)
+            # use limited API to avoid compiling many different wheels
+            self.compiler.define_macro("CYTHON_LIMITED_API", 1)
 
         # check if `PyInterpreterState_GetID` is defined
         if self._check_getid():
