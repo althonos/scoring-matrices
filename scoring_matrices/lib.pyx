@@ -152,7 +152,7 @@ cdef class ScoringMatrix:
         """Create a scoring matrix from two match/mismatch scores.
 
         .. versionadded:: 0.2.0
-        
+
         """
         cdef list   matrix = []
         cdef size_t length = len(alphabet)
@@ -177,6 +177,31 @@ cdef class ScoringMatrix:
         str name = None,
     ):
         """Create a new scoring matrix.
+
+        Arguments:
+            matrix (array-like of `float`): A square matrix with dimensions
+                equal to the ``alphabet`` length, storing the scores for each
+                pair of characters.
+            alphabet (`str`): The alphabet used to index the rows and columns
+                of the scoring matrix.
+            name (`str` or `None`): The name of the scoring matrix, if any.
+
+        Example:
+            >>> matrix = ScoringMatrix(
+            ...     [[91, -114,  -31, -123],
+            ...      [-114, 100, -125, -31],
+            ...      [-31, -125,  100, -114],
+            ...      [-123, -31, -114,  91]],
+            ...     alphabet="ACGT",
+            ...     name="HOXD70",
+            ... )
+
+        Raises:
+            `ValueError`: When the matrix is not a valid matrix or does not
+                match the given alphabet.
+            `MemoryError`: When memory for storing the scores could not be
+                allocated successfully.
+
         """
         cdef ssize_t i
         cdef ssize_t j
@@ -351,6 +376,9 @@ cdef class ScoringMatrix:
     cpdef bint is_integer(self):
         """Test whether the scoring matrix is an integer matrix.
 
+        Returns:
+            `bool`: `True` if the matrix only contains integer scores.
+
         Example:
             >>> blosum62 = ScoringMatrix.from_name("BLOSUM62")
             >>> blosum62.is_integer()
@@ -376,6 +404,10 @@ cdef class ScoringMatrix:
 
     cpdef bint is_symmetric(self):
         """Test whether the scoring matrix is symmetric.
+
+        Returns:
+            `bool`: `True` if the matrix is a symmetric matrix.
+
         """
         assert self._matrix != NULL
 
