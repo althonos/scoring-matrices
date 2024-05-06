@@ -1,11 +1,10 @@
-PyOpal |Stars|
-==============
+``scoring-matrices`` |Stars|
+============================
 
-.. |Stars| image:: https://img.shields.io/github/stars/althonos/pyopal.svg?style=social&maxAge=3600&label=Star
-   :target: https://github.com/althonos/pyopal/stargazers
+.. |Stars| image:: https://img.shields.io/github/stars/althonos/scoring-matrices.svg?style=social&maxAge=3600&label=Star
+   :target: https://github.com/althonos/scoring-matrices/stargazers
 
-`Cython <https://cython.org/>`_ *bindings and Python interface to* `Opal <https://github.com/Martinsos/opal>`_,
-*a SIMD-accelerated pairwise aligner.*
+*Dependency free,* `Cython <https://cython.org>`_*-compatible scoring matrices to use with biological sequences.*
 
 |Actions| |Coverage| |PyPI| |Bioconda| |AUR| |Wheel| |Versions| |Implementations| |License| |Source| |Issues| |Docs| |Changelog| |Downloads|
 
@@ -105,10 +104,11 @@ License
 -------
 
 This library is provided under the `MIT License <https://choosealicense.com/licenses/mit/>`_.
-Opal was developed by `Martin Šošić <https://github.com/Martinsos>`_ and is distributed under the
-terms of the MIT License as well. 
+Matrices were collected from the `MMseqs2 <https://github.com/soedinglab/MMseqs2>`_,
+`Biopython <https://github.com/biopython/biopython/tree/master/Bio/Align/substitution_matrices/data>`_
+and `NCBI BLAST+ <https://ftp.ncbi.nih.gov/blast/matrices/>`_ sources and are believed to
+be in the public domain.
 
-*This project is in no way not affiliated, sponsored, or otherwise endorsed by
-the original* `Opal`_ *authors. It was developed by* `Martin Larralde <https://github.com/althonos>`_ *during his
-PhD project at the* `European Molecular Biology Laboratory <https://www.embl.de/>`_
+*This project was developed by* `Martin Larralde <https://github.com/althonos/>`_
+*during his PhD project at the* `Leiden University Medical Center <https://www.lumc.nl/en/>`_
 *in the* `Zeller team <https://github.com/zellerlab>`_.
