@@ -52,6 +52,9 @@ PyOpal |Stars|
    :target: https://pepy.tech/project/scoring-matrices
 
 
+.. currentmodule:: scoring_matrices
+
+
 Overview
 --------
 
@@ -71,6 +74,7 @@ to handle and distribute common substitution matrices:
   a `typed memoryview <https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html>`_.
 - **most common matrices**: The package distributes most common matrices, such as 
   those used by the NCBI BLAST+ suite, including:
+
   - *PAM* matrices by Dayhoff *et al.* (1978).
   - *BLOSUM* matrices by Henikoff & Henikoff (1992).
   - *VTML* matrices by Muller *et al.* (2002).
