@@ -50,6 +50,33 @@ class TestScoringMatrix(unittest.TestCase):
         self.assertEqual(m2['T', 'A'], -4.0)
         self.assertEqual(m2['A', 'A'], 5.0)
 
+    def test_from_diagonal(self):
+        m = ScoringMatrix.from_diagonal([1, 2, 3, 4], 0.0, alphabet="ATGC")
+        self.assertEqual(m[0], [1.0, 0.0, 0.0, 0.0])
+        self.assertEqual(m[1], [0.0, 2.0, 0.0, 0.0])
+        self.assertEqual(m[2], [0.0, 0.0, 3.0, 0.0])
+        self.assertEqual(m[3], [0.0, 0.0, 0.0, 4.0])
+
+        m = ScoringMatrix.from_diagonal([1, 2, 3, 4], -1.0, alphabet="ATGC")
+        self.assertEqual(m[0], [ 1.0, -1.0, -1.0, -1.0])
+        self.assertEqual(m[1], [-1.0,  2.0, -1.0, -1.0])
+        self.assertEqual(m[2], [-1.0, -1.0,  3.0, -1.0])
+        self.assertEqual(m[3], [-1.0, -1.0, -1.0,  4.0])
+
+    def test_from_diagonal_invalid_length(self):
+        self.assertRaises(
+            ValueError,
+            ScoringMatrix.from_diagonal,
+            [ 3, 3, 3, 3, 3, 3 ],
+            alphabet="ATGC"
+        )
+        self.assertRaises(
+            ValueError,
+            ScoringMatrix.from_diagonal,
+            [ 3, 3, 3 ],
+            alphabet="ATGC"
+        )
+
     def test_list(self):
         aa = ScoringMatrix.from_name("BLOSUM50")
         matrix = list(aa)
@@ -67,6 +94,11 @@ class TestScoringMatrix(unittest.TestCase):
         self.assertEqual(mem.shape, (24, 24))
         self.assertEqual(mem[0, 0], 5.0) # A <-> A
         self.assertEqual(mem[6, 6], 6.0) # E <-> E
+
+    def test_init_empty(self):
+        m = ScoringMatrix([], alphabet="")
+        self.assertEqual(len(m), 0)
+        self.assertFalse(bool(m))
 
     def test_init_invalid_length(self):
         with self.assertRaises(ValueError):
@@ -103,3 +135,13 @@ class TestScoringMatrix(unittest.TestCase):
         sm2 = pickle.loads(pickle.dumps(sm1))
         self.assertEqual(sm1.alphabet, sm2.alphabet)
         self.assertEqual(list(sm1), list(sm2))
+
+    def test_shuffle_invalid_alphabet(self):
+        matrix = ScoringMatrix.from_name("BLOSUM62")
+        self.assertRaises(KeyError, matrix.shuffle, "ARNJOU")
+
+    def test_shuffle_empty(self):
+        matrix = ScoringMatrix.from_name("BLOSUM62")
+        empty = matrix.shuffle("")
+        self.assertEqual(len(empty), 0)
+        self.assertFalse(bool(empty))
