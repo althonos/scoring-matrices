@@ -501,7 +501,7 @@ cdef class ScoringMatrix:
                 raise KeyError(f"new alphabet contains unknown letter: {x!r}") from None
 
         for letter in alphabet:
-            row = self[letter]
+            row = self[<str> letter]
             matrix.append([row[j] for j in indices])
 
         name = self.name if len(alphabet) == len(self.alphabet) else None
