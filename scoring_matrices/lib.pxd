@@ -18,6 +18,7 @@ cdef class ScoringMatrix:
     cdef const float** matrix(self) except NULL nogil    
 
     cpdef bint is_integer(self)
+    cpdef bint is_symmetric(self)
     cpdef float min(self)
     cpdef float max(self)
     cpdef ScoringMatrix copy(self)

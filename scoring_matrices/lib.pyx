@@ -99,6 +99,69 @@ cdef class ScoringMatrix:
         """
         return cls.from_file(io.StringIO(text))
 
+    @classmethod
+    def from_diagonal(
+        cls, 
+        object diagonal, 
+        float mismatch_score=0.0, 
+        str alphabet not None = DEFAULT_ALPHABET, 
+        str name = None
+    ):
+        """Create a scoring matrix from a diagonal vector.
+
+        Arguments:
+            diagonal (sequence of `float`): The diagonal of the scoring
+                matrix, used to score character matches.
+            mismatch_score (`float`): The mismatch score to use for 
+                every mismatches.
+            alphabet (`str`): The alphabet to use with the scoring matrix.
+            name (`str` or `None`): A name for the scoring matrix, if any.
+
+        Example:
+            >>> matrix = ScoringMatrix.from_diagonal(
+            ...     diagonal=[2, 2, 3, 3],
+            ...     mismatch_score=-3.0,
+            ...     alphabet="ATGC",
+            ... )
+            >>> for row in matrix:
+            ...     print(row)
+            [2.0, -3.0, -3.0, -3.0]
+            [-3.0, 2.0, -3.0, -3.0]
+            [-3.0, -3.0, 3.0, -3.0]
+            [-3.0, -3.0, -3.0, 3.0]
+
+        .. versionadded:: 0.2.0
+
+        """
+        cdef list   matrix = []
+        cdef size_t length = len(alphabet)
+
+        for i, x in enumerate(diagonal):
+            row = [ x if j == i else mismatch_score for j in range(length) ]
+            matrix.append(row)
+        return cls(matrix, alphabet=alphabet, name=name)
+
+    @classmethod
+    def from_match_mismatch(
+        cls,
+        float match_score = 1.0, 
+        float mismatch_score = -1.0,
+        str alphabet not None = DEFAULT_ALPHABET,
+        str name = None,
+    ):
+        """Create a scoring matrix from two match/mismatch scores.
+
+        .. versionadded:: 0.2.0
+        
+        """
+        cdef list   matrix = []
+        cdef size_t length = len(alphabet)
+
+        for i in range(length):
+            row = [ match_score if j == i else mismatch_score for j in range(length) ]
+            matrix.append(row)
+        return cls(matrix, alphabet=alphabet, name=name)
+
     # --- Magic methods --------------------------------------------------------
 
     def __cinit__(self):
@@ -310,6 +373,23 @@ cdef class ScoringMatrix:
                     integer = False
                     break
         return integer
+
+    cpdef bint is_symmetric(self):
+        """Test whether the scoring matrix is symmetric.
+        """
+        assert self._matrix != NULL
+
+        cdef size_t i
+        cdef size_t j
+        cdef bint   symmetric = True
+
+        with nogil:
+            for i in range(self._nitems):
+                for j in range(i + 1, self._nitems):
+                    if self._matrix[i][j] != self._matrix[j][i]:
+                        symmetric = False
+                        break
+        return symmetric
 
     cpdef float min(self):
         """Get the minimum score of the scoring matrix.
