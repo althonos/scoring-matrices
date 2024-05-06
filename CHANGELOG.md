@@ -6,7 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.2.0...HEAD
+
+
+## [v0.2.0] - 2024-05-06
+[v0.2.0]: https://github.com/althonos/scoring-matrices/compare/v0.1.1...v0.2.0
+
+### Added
+- `ScoringMatrix.is_symmetric` method to check whether the matrix is symmetric.
+- `ScoringMatrix.from_match_mismatch` and `ScoringMatrix.from_diagonal` constructors.
+
+### Fixed
+- Rounding of constants in generated `matrices.h` header.
 
 
 ## [v0.1.1] - 2024-05-03

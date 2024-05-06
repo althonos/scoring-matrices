@@ -3,7 +3,6 @@ from typing import TypeVar, Type, Optional, TextIO, Sequence, ClassVar, Tuple, L
 
 S = TypeVar("S")
 
-
 class ScoringMatrix:
     DEFAULT_ALPHABET: ClassVar[str]
     @classmethod
@@ -12,6 +11,22 @@ class ScoringMatrix:
     def from_file(cls: Type[S], file: TextIO, name: Optional[str] = None) -> S: ...
     @classmethod
     def from_str(cls: Type[S], text: str, name: Optional[str] = None) -> S: ...
+    @classmethod
+    def from_diagonal(
+        cls: Type[S],
+        diagonal: Iterable[float],
+        mismatch_score: float = 0.0,
+        alphabet: str = DEFAULT_ALPHABET,
+        name: Optional[str] = None,
+    ) -> S: ...
+    @classmethod
+    def from_match_mismatch(
+        cls: Type[S],
+        match_score: float = 1.0,
+        mismatch_score: float = -0.0,
+        alphabet: str = DEFAULT_ALPHABET,
+        name: Optional[str] = None,
+    ) -> S: ...
     def __init__(
         self,
         matrix: Sequence[Sequence[float]],
@@ -33,6 +48,7 @@ class ScoringMatrix:
     def __getitem__(self, item: Tuple[str, str]) -> float: ...
     def copy(self: S) -> S: ...
     def is_integer(self) -> bool: ...
+    def is_symmetric(self) -> bool: ...
     def min(self) -> float: ...
     def max(self) -> float: ...
     def shuffle(self: S, alphabet: str) -> S: ...

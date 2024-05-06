@@ -421,6 +421,8 @@ cdef class ScoringMatrix:
         Returns:
             `bool`: `True` if the matrix is a symmetric matrix.
 
+        .. versionadded:: 0.2.0
+
         """
         cdef size_t        i
         cdef size_t        j
