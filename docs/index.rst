@@ -4,7 +4,7 @@
 .. |Stars| image:: https://img.shields.io/github/stars/althonos/scoring-matrices.svg?style=social&maxAge=3600&label=Star
    :target: https://github.com/althonos/scoring-matrices/stargazers
 
-*Dependency free,* `Cython <https://cython.org>`_*-compatible scoring matrices to use with biological sequences.*
+*Dependency free, Cython-compatible scoring matrices to use with biological sequences.*
 
 |Actions| |Coverage| |PyPI| |Bioconda| |AUR| |Wheel| |Versions| |Implementations| |License| |Source| |Issues| |Docs| |Changelog| |Downloads|
 
