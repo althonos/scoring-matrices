@@ -135,7 +135,12 @@ class build_matrices(setuptools.Command):
             for i, (name, id_) in enumerate(zip(names, ids)):
                 alphabet, matrix = matrices[name]
                 nitems = len(matrix) * len(matrix)
-                dst.write(f"float _MATRIX_{id_}[{nitems}] = {{ { ', '.join(map(repr, itertools.chain.from_iterable(matrix))) } }};\n")
+                dst.write(f"float _MATRIX_{id_}[{nitems}] = {{")
+                for i, item in enumerate(itertools.chain.from_iterable(matrix)):
+                    if i != 0:
+                        dst.write(", ")
+                    dst.write(f"{item!r}F")
+                dst.write("};\n")
 
             dst.write(f"const float* _MATRICES[{len(names) + 1}] = {{")
             for id_ in ids:
