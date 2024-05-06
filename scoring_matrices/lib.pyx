@@ -1,5 +1,7 @@
 # distutils: language = c
 # cython: language_level=3, linetrace=True, binding=True
+"""Dependency free, Cython-compatible scoring matrices for bioinformatics.
+"""
 
 cimport cython
 from cpython.memoryview cimport PyMemoryView_FromMemory

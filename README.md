@@ -12,7 +12,6 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/scoring-matrices.svg?style=flat-square&maxAge=600&logo=python)](https://pypi.org/project/scoring-matrices/#files)
 [![Python Implementations](https://img.shields.io/pypi/implementation/scoring-matrices.svg?style=flat-square&maxAge=600&label=impl)](https://pypi.org/project/scoring-matrices/#files)
 [![Source](https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/scoring-matrices/)
-[![Mirror](https://img.shields.io/badge/mirror-EMBL-009f4d?style=flat-square&maxAge=2678400)](https://git.embl.de/larralde/scoring-matrices/)
 [![Issues](https://img.shields.io/github/issues/althonos/scoring-matrices.svg?style=flat-square&maxAge=600)](https://github.com/althonos/scoring-matrices/issues)
 [![Docs](https://img.shields.io/readthedocs/scoring-matrices/latest?style=flat-square&maxAge=600)](https://scoring-matrices.readthedocs.io)
 [![Changelog](https://img.shields.io/badge/keep%20a-changelog-8A0707.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/scoring-matrices/blob/main/CHANGELOG.md)
@@ -25,7 +24,7 @@ two characters are the same position in a sequence alignment. Some of these
 matrices are derived from *substitution matrices*, which uses evolutionary 
 modeling.
 
-The `scoring-matrices` packages is a dependency-free, batteries included library
+The `scoring-matrices` package is a dependency-free, batteries included library
 to handle and distribute common substitution matrices:
 
 - **no external dependencies**: The matrices are distributed as-is: you don't 
