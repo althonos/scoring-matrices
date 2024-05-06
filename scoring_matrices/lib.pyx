@@ -9,7 +9,7 @@ from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE
 
 from libc.math cimport INFINITY, lrintf
 from libc.stdlib cimport realloc, free
-from libc.string cimport memcpy
+from libc.string cimport memcpy, memset
 
 from .matrices cimport _NAMES, _ALPHABETS, _SIZES, _MATRICES
 
@@ -221,8 +221,8 @@ cdef class ScoringMatrix:
         with nogil:
             self._allocate(size)
 
-        assert self._data != NULL
-        assert self._matrix != NULL
+        for i, c in enumerate(self.alphabet):
+            self._alphabet[i] = ord(c)
         for i, row in enumerate(matrix):
             if len(row) != size:
                 raise ValueError("Matrix must contain one column per alphabet letter")
@@ -338,23 +338,35 @@ cdef class ScoringMatrix:
         cdef size_t i
 
         self._data = <float*> realloc(self._data, sizeof(float) * size * size)
-        if self._data is NULL:
-            raise MemoryError("Failed to allocate matrix")
-
         self._matrix = <float**> realloc(self._matrix, sizeof(float*) * size)
-        if self._matrix is NULL:
+        self._alphabet = <char*> realloc(self._alphabet, sizeof(char) * (size + 1))
+        if self._data is NULL or self._matrix is NULL or self._alphabet is NULL:
             raise MemoryError("Failed to allocate matrix")
 
         self._size = self._shape[0] = self._shape[1] = size
         self._nitems = self._size * self._size
         for i in range(size):
             self._matrix[i] = &self._data[i * self._size]
+        memset(self._alphabet, 0, sizeof(char) * (size + 1))
 
         return 0
 
     # --- Public methods -------------------------------------------------------
 
-    cdef const float* data(self) except NULL nogil:
+    cdef size_t size(self) noexcept nogil:
+        """Get the size of the scoring matrix.
+        """
+        return self._size
+
+    cdef const char* alphabet_ptr(self) except NULL nogil:
+        """Get the alphabet of the scoring matrix as a C-string.
+        """
+        if self._alphabet == NULL:
+            with gil:
+                raise RuntimeError("uninitialized scoring matrix")
+        return <const char*> self._alphabet
+
+    cdef const float* data_ptr(self) except NULL nogil:
         """Get the matrix scores as a dense array.
         """
         if self._data == NULL:
@@ -362,7 +374,7 @@ cdef class ScoringMatrix:
                 raise RuntimeError("uninitialized scoring matrix")
         return <const float*> self._data
 
-    cdef const float** matrix(self) except NULL nogil:
+    cdef const float** matrix_ptr(self) except NULL nogil:
         """Get the matrix scores as an array of pointers.
         """
         if self._matrix == NULL:
@@ -390,15 +402,14 @@ cdef class ScoringMatrix:
             False
 
         """
-        assert self._data != NULL
-
-        cdef size_t i
-        cdef float  x
-        cdef bint   integer = True
+        cdef size_t       i
+        cdef float        x
+        cdef bint         integer = True
+        cdef const float* _data   = self.data_ptr()
 
         with nogil:
             for i in range(self._nitems):
-                x = self._data[i]
+                x = _data[i]
                 if lrintf(x) != x:
                     integer = False
                     break
@@ -411,16 +422,15 @@ cdef class ScoringMatrix:
             `bool`: `True` if the matrix is a symmetric matrix.
 
         """
-        assert self._matrix != NULL
-
-        cdef size_t i
-        cdef size_t j
-        cdef bint   symmetric = True
+        cdef size_t        i
+        cdef size_t        j
+        cdef bint          symmetric = True
+        cdef const float** _matrix   = self.matrix_ptr()
 
         with nogil:
             for i in range(self._nitems):
                 for j in range(i + 1, self._nitems):
-                    if self._matrix[i][j] != self._matrix[j][i]:
+                    if _matrix[i][j] != _matrix[j][i]:
                         symmetric = False
                         break
         return symmetric
