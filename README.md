@@ -86,8 +86,8 @@ $ conda install bioconda::scoring-matrices
   from scoring_matrices cimport ScoringMatrix
 
   cdef ScoringMatrix blosum = ScoringMatrix.from_name("BLOSUM62")
-  cdef const float*  data   = blosum.data()    # dense array
-  cdef const float** matrix = blosum.matrix()  # array of pointers
+  cdef const float*  data   = blosum.data_ptr()    # dense array
+  cdef const float** matrix = blosum.matrix_ptr()  # array of pointers
   ```
 - Access the `ScoringMatrix` weights as a [typed memoryview](https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html) 
   using the *buffer protocol* in more recents versions of Python:
