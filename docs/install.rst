@@ -24,16 +24,16 @@ Cython code :
    $ pip install --user scoring-matrices
 
 
-.. Conda
-.. ^^^^^
+Conda
+^^^^^
 
-.. `scoring-matrices` is also available as a `recipe <https://anaconda.org/bioconda/scoring-matrices>`_
-.. in the `bioconda <https://bioconda.github.io/>`_ channel. To install, simply
-.. use the ``conda`` installer:
+`scoring-matrices` is also available as a `recipe <https://anaconda.org/bioconda/scoring-matrices>`_
+in the `bioconda <https://bioconda.github.io/>`_ channel. To install, simply
+use the ``conda`` installer:
 
-.. .. code:: console
+.. code:: console
 
-..    $ conda install -c bioconda scoring-matrices
+   $ conda install bioconda::scoring-matrices
 
 
 Arch User Repository

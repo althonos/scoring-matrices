@@ -42,7 +42,19 @@ to handle and distribute common substitution matrices:
 
 ## 🔧 Installing
 
-`scoring-matrices` is available for all modern Python versions (3.6+).
+`scoring-matrices` can be installed directly from [PyPI](https://pypi.org/project/scoring-matrices/),
+which hosts some pre-built wheels for the x86-64 architecture (Linux/OSX/Windows)
+and the Aarch64 architecture (Linux/OSX), as well as the code required to
+compile from source with Cython:
+```console
+$ pip install scoring-matrices
+```
+
+Otherwise, `scoring-matrices` is also available as a [Bioconda](https://bioconda.github.io/)
+package:
+```console
+$ conda install bioconda::scoring-matrices
+```
 
 ## 💡 Usage
 
