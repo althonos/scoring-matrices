@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.2.1...HEAD
+
+
+## [v0.2.1] - 2024-06-06
+[v0.2.1]: https://github.com/althonos/scoring-matrices/compare/v0.2.0...v0.2.1
+
+### Fixed
+- Missing type hints of `name` and `alphabet` attributes of `ScoringMatrix` ([#1](https://github.com/althonos/scoring-matrices/pull/1), by [@RayHackett](https://github.com/RayHackett)).
 
 
 ## [v0.2.0] - 2024-05-06
