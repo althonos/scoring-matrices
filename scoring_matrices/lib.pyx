@@ -430,8 +430,8 @@ cdef class ScoringMatrix:
         cdef const float** _matrix   = self.matrix_ptr()
 
         with nogil:
-            for i in range(self._nitems):
-                for j in range(i + 1, self._nitems):
+            for i in range(self._size):
+                for j in range(i + 1, self._size):
                     if _matrix[i][j] != _matrix[j][i]:
                         symmetric = False
                         break
