@@ -145,3 +145,9 @@ class TestScoringMatrix(unittest.TestCase):
         empty = matrix.shuffle("")
         self.assertEqual(len(empty), 0)
         self.assertFalse(bool(empty))
+
+    def test_is_symmetric(self):
+        matrix = ScoringMatrix.from_name("PAM250")
+        self.assertTrue(matrix.is_symmetric())
+        matrix = ScoringMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]], "ABC")
+        self.assertFalse(matrix.is_symmetric())
