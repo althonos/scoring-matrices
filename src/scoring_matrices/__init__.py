@@ -1,4 +1,5 @@
-__version__ = "0.2.2"
+from ._version import __version__
+
 __author__ = "Martin Larralde <martin.larralde@embl.de>"
 __license__ = "MIT"
 
