@@ -6,6 +6,8 @@ add_custom_command(OUTPUT matrices.h
     DEPENDS ${MATRICES}
 )
 
-add_library(matrices matrices.h)
+file(CONFIGURE OUTPUT stub.c CONTENT "")
+
+add_library(matrices matrices.h ${CMAKE_CURRENT_BINARY_DIR}/stub.c)
 set_target_properties(matrices PROPERTIES LINKER_LANGUAGE C)
 target_include_directories(matrices INTERFACE ${CMAKE_CURRENT_BINARY_DIR})

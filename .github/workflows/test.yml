@@ -64,7 +64,7 @@ jobs:
     - name: Build C extension in debug mode
       run: python -m pip install -v --no-build-isolation -e .
     - name: Test with coverage
-      run: python -m coverage run -m scoring_matrices.tests discover -vv
+      run: python -m coverage run -m unittest scoring_matrices.tests -vv
     - name: Upload to Codecov
       if: matrix.python-impl == 'CPython'
       uses: codecov/codecov-action@v3
