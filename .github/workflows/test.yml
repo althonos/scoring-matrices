@@ -33,9 +33,6 @@ jobs:
         - python-version: 3.12
           python-release: v3.12
           python-impl: CPython
-        - python-version: pypy-3.6
-          python-release: v3.6
-          python-impl: PyPy
         - python-version: pypy-3.7
           python-release: v3.7
           python-impl: PyPy
@@ -152,9 +149,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - python-version: 3.6
-          python-release: v3.6
-          python-impl: CPython
         - python-version: 3.7
           python-release: v3.7
           python-impl: CPython
@@ -200,6 +194,6 @@ jobs:
     - name: Install Python requirements
       run: python -m pip install -r .github/workflows/requirements.txt
     - name: Build C extension
-      run: python -m pip install -v -e . --no-build-isolation
+      run: python -m pip install -v . --no-build-isolation
     - name: Test without coverage
       run: python -m unittest scoring_matrices.tests -vv

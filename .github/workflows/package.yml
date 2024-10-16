@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         python-tag:
-        - cp36-manylinux_aarch64
         - cp37-manylinux_aarch64
         - cp38-manylinux_aarch64
         - cp39-manylinux_aarch64
@@ -55,7 +54,6 @@ jobs:
     strategy:
       matrix:
         python-tag:
-        - cp36-manylinux_x86_64
         - cp37-manylinux_x86_64
         - cp38-manylinux_x86_64
         - cp39-manylinux_x86_64
@@ -96,7 +94,6 @@ jobs:
     strategy:
       matrix:
         python-tag:
-        - cp36-macosx_x86_64
         - cp37-macosx_x86_64
         - cp38-macosx_x86_64
         - cp39-macosx_x86_64
@@ -174,7 +171,6 @@ jobs:
     strategy:
       matrix:
         python-tag:
-        - cp36-win_amd64
         - cp37-win_amd64
         - cp38-win_amd64
         - cp39-win_amd64
