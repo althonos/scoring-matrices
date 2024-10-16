@@ -1,4 +1,105 @@
 [build-system]
-requires = ['setuptools >=46.4', 'cython ~=3.0']
-build-backend = "setuptools.build_meta"
+requires = ["scikit-build-core", "cython >=3.0"]
+build-backend = "scikit_build_core.build"
 
+[project]
+name = "scoring-matrices"
+version = "0.2.2"
+description = "Dependency free, Cython-compatible scoring matrices to use with biological sequences."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "COPYING" }
+authors = [
+  { name = "Martin Larralde", email = "martin.larralde@embl.de" },
+]
+keywords = ["bioinformatics", "sequence", "substitution", "matrix", "score"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: C",
+    "Programming Language :: Cython",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Typing :: Typed",
+]
+
+
+[project.urls]
+"Documentation" = "https://scoring-matrices.readthedocs.io/en/stable/"
+"Bug Tracker" = "https://github.com/althonos/scoring-matrices/issues"
+"Changelog" = "https://github.com/althonos/scoring-matrices/blob/main/CHANGELOG.md"
+"Coverage" = "https://codecov.io/gh/althonos/scoring-matrices/"
+"Builds" = "https://github.com/althonos/scoring-matrices/actions"
+"PyPI" = "https://pypi.org/project/scoring-matrices"
+
+[tool.scikit-build]
+build-dir = "build/{build_type}"
+editable.rebuild = true
+editable.verbose = false
+
+[[tool.scikit-build.generate]]
+path = "src/scoring_matrices/_version.py"
+template = '__version__ = "${version}"'
+location = 'source'
+
+[[tool.scikit-build.overrides]]
+if.state = "editable"
+cmake.build-type = "Debug"
+
+[[tool.scikit-build-overrides]]
+if.env.SCCACHE = true
+cmake.define.CMAKE_C_COMPILER_LAUNCHER = "sccache"
+cmake.define.CMAKE_CXX_COMPILER_LAUNCHER = "sccache"
+
+[[tool.scikit-build-overrides]]
+if.env.MOLD = true
+cmake.define.CMAKE_LINKER_TYPE = "mold"
+
+#[tool.coverage.run]
+#plugins = ["Cython.Coverage"]
+
+[tool.coverage.report]
+include = ["src/scoring_matrices/*"]
+omit = ["src/scoring_matrices/tests/*"]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if typing.TYPE_CHECKING:",
+    "@abc.abstractmethod",
+    "@abc.abstractproperty",
+    "raise NotImplementedError",
+    "return NotImplemented",
+    "raise UnexpectedError",
+    "raise AllocationError",
+]
+
+[tool.coverage.paths]
+source = [
+    "src/scoring_matrices/",
+    "build/Debug/src/scoring_matrices/",
+]
+
+[tool.mypy]
+disallow_any_decorated = true
+disallow_any_generics = true
+disallow_any_unimported = false
+disallow_subclassing_any = false
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_return_any = true
+exclude = ["tests/.*\\.py"]
+
+["tool.mypy-scoring_matrices.tests.*"]
+ignore_errors = true
