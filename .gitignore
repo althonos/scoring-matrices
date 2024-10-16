@@ -2,8 +2,6 @@
 # Created by https://www.gitignore.io/api/python,c
 # Edit at https://www.gitignore.io/?templates=python,c
 
-src/scoring_matrices/_version.py
-
 ### C ###
 # Prerequisites
 *.d
