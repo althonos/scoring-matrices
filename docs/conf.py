@@ -128,7 +128,7 @@ html_theme_options = {
         },
     ],
     "logo": {
-        "text": "PyJess",
+        "text": "Scoring Matrices",
         # "image_light": "_images/logo.png",
         # "image_dark": "_images/logo.png",
     },
