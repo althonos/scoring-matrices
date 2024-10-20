@@ -1,6 +1,6 @@
 import pickle
-import unittest
 import sys
+import unittest
 
 from scoring_matrices import ScoringMatrix
 

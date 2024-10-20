@@ -1,5 +1,5 @@
 import typing
-from typing import TypeVar, Type, Optional, TextIO, Sequence, ClassVar, Tuple, List
+from typing import ClassVar, List, Optional, Sequence, TextIO, Tuple, Type, TypeVar
 
 S = TypeVar("S")
 

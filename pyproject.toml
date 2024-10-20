@@ -103,3 +103,11 @@ exclude = ["tests/.*\\.py"]
 
 ["tool.mypy-scoring_matrices.tests.*"]
 ignore_errors = true
+
+[tool.isort]
+known_first_party = ["scoring_matrices"]
+known_standard_library = ["cpython", "cython", "_unicode"]
+known_third_party = ["libc", "libcpp"]
+line_length = 88
+profile = "black"
+skip_gitignore = true

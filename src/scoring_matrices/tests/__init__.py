@@ -1,9 +1,6 @@
 # noqa: D104
 
-from . import (
-    test_doctest,
-    test_scoring_matrix,
-)
+from . import test_doctest, test_scoring_matrix
 
 
 def load_tests(loader, suite, pattern):

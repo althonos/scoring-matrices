@@ -4,14 +4,14 @@
 """
 
 cimport cython
-from cpython.memoryview cimport PyMemoryView_FromMemory
 from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE
+from cpython.memoryview cimport PyMemoryView_FromMemory
 
 from libc.math cimport INFINITY, lrintf
-from libc.stdlib cimport realloc, free
+from libc.stdlib cimport free, realloc
 from libc.string cimport memcpy, memset
 
-from .matrices cimport _NAMES, _ALPHABETS, _SIZES, _MATRICES
+from .matrices cimport _ALPHABETS, _MATRICES, _NAMES, _SIZES
 
 import io
 import pickle

@@ -2,6 +2,7 @@ import argparse
 import itertools
 import os
 
+
 def _parse_matrix_file(matrix_file):
     with open(matrix_file) as f:
         lines = filter(
