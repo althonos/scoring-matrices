@@ -178,7 +178,9 @@ cdef class ScoringMatrix:
         str alphabet not None = DEFAULT_ALPHABET,
         str name = None,
     ):
-        """Create a new scoring matrix.
+        """__init__(self, matrix, alphabet="ARNDCQEGHILKMFPSTWYVBZX", name=None)\n--\n
+        
+        Create a new scoring matrix.
 
         Arguments:
             matrix (array-like of `float`): A square matrix with dimensions
