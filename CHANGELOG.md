@@ -6,7 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.0...HEAD
+
+
+## [v0.3.0] - 2024-10-20
+[v0.3.0]: https://github.com/althonos/scoring-matrices/compare/v0.2.2...v0.3.0
+
+### Changed
+- Rewrite package build using `scikit-build-core`.
+- Use the PyData theme in documentation.
+
+### Removed
+- Support for Python 3.6.
 
 
 ## [v0.2.2] - 2024-06-24
