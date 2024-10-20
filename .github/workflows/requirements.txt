@@ -1,5 +1,5 @@
-coverage ~=6.0
+coverage ~=7.0
 cython ~=3.0
-scikit-build-core
-setuptools >=46.4.0
 importlib-resources ; python_version < '3.7'
+scikit-build-core
+build
