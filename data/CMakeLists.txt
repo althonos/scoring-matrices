@@ -12,4 +12,3 @@ add_library(matrices matrices.h ${CMAKE_CURRENT_BINARY_DIR}/stub.c)
 set_target_properties(matrices PROPERTIES LINKER_LANGUAGE C)
 target_include_directories(matrices INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
 
-# install(FILES ${CMAKE_CURRENT_BINARY_DIR}/matrices.h DESTINATION ${SKBUILD_PLATLIB_DIR}/scoring_matrices)

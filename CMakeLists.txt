@@ -9,10 +9,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set_property(GLOBAL PROPERTY PYTHON_EXTENSIONS_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/src)
 include("src/scripts/cmake/CythonExtension.cmake")
 
-# --- Setup include folders ----------------------------------------------------
-
-# set(CYTHON_HEADERS_DIR ${CMAKE_CURRENT_LIST_DIR}/src/scoring_matrices)
-
 # --- Compile source code ------------------------------------------------------
 
 add_subdirectory(data)
