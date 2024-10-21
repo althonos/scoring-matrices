@@ -309,15 +309,16 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.11'
-    - name: Download built wheels
-      uses: actions/download-artifact@v2
+    - name: Download source distribution
+      uses: actions/download-artifact@v4
       with:
-          name: sdist
-          path: dist
+        name: sdist
+        path: dist/
+        merge-multiple: true
     - name: Extract package version
       run: echo PKGVER=${{ github.ref }} >> $GITHUB_ENV
     - name: Compute SHA256 of source distribution
-      run: echo SHA256=$(sha256sum dist/scoring-matrices-${{ env.PKGVER }}.tar.gz | cut -f1 -d' ') >> $GITHUB_ENV
+      run: echo SHA256=$(sha256sum dist/scoring_matrices-${{ env.PKGVER }}.tar.gz | cut -f1 -d' ') >> $GITHUB_ENV
     - name: Generate PKGBUILD
       run: sed -e "s/%pkgver/${{ env.PKGVER }}/g" -e "s/%sha256sum/${{ env.SHA256 }}/g" pkg/aur/PKGBUILD.in > pkg/aur/PKGBUILD
     - name: Update package

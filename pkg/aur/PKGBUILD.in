@@ -11,7 +11,7 @@ url="https://github.com/althonos/scoring-matrices"
 license=("MIT")
 depends=('python')
 makedepends=('cython' 'python-build' 'python-installer' 'cmake' 'ninja' 'python-scikit-build-core')
-source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_name-$pkgver.tar.gz")
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/$_name/$_module-$pkgver.tar.gz")
 sha256sums=(%sha256sum)
 
 build() {
