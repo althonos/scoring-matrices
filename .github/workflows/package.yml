@@ -9,7 +9,7 @@ jobs:
 
   wheel-linux-aarch64:
     name: Build Linux wheels (Aarch64)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     strategy:
       matrix:
         python-tag:
@@ -27,11 +27,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - name: Set up QEMU
-      id: qemu
-      uses: docker/setup-qemu-action@v2
-      with:
-        platforms: all
     - name: Build manylinux wheels
       uses: pypa/cibuildwheel@v2.16.5
       env:
