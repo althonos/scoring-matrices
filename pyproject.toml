@@ -27,6 +27,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
@@ -41,6 +42,9 @@ classifiers = [
 "Coverage" = "https://codecov.io/gh/althonos/scoring-matrices/"
 "Builds" = "https://github.com/althonos/scoring-matrices/actions"
 "PyPI" = "https://pypi.org/project/scoring-matrices"
+
+[project.optional-dependencies]
+test = ["importlib-resources ; python_version < '3.9'"]
 
 [tool.scikit-build]
 build-dir = "build/{build_type}"
@@ -62,6 +66,14 @@ cmake.define.CMAKE_LINKER_TYPE = "mold"
 
 #[tool.coverage.run]
 #plugins = ["Cython.Coverage"]
+
+[tool.cibuildwheel]
+before-build = "pip install scikit-build-core cython"
+build-frontend = { name = "pip", args = ["--no-build-isolation"] }
+build-verbosity = 1
+test-command = "python -m unittest scoring_matrices.tests -vv"
+test-extras = ["test"]
+free-threaded-support = false
 
 [tool.coverage.report]
 include = ["src/scoring_matrices/*"]
