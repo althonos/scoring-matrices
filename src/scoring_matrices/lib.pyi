@@ -1,6 +1,8 @@
 import typing
 from typing import ClassVar, List, Optional, Sequence, TextIO, Tuple, Type, TypeVar
 
+__version__: str
+
 S = TypeVar("S")
 
 class ScoringMatrix:

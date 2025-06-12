@@ -16,6 +16,7 @@ from .matrices cimport _ALPHABETS, _MATRICES, _NAMES, _SIZES
 import io
 import pickle
 
+__version__ = PROJECT_VERSION
 
 cdef dict _INDICES = {
     _NAMES[i].decode('ascii'):i
