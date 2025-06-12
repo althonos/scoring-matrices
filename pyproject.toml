@@ -73,7 +73,7 @@ build-frontend = { name = "pip", args = ["--no-build-isolation"] }
 build-verbosity = 1
 test-command = "python -m unittest scoring_matrices.tests -vv"
 test-extras = ["test"]
-free-threaded-support = false
+free-threaded-support = true
 
 [tool.coverage.report]
 include = ["src/scoring_matrices/*"]
