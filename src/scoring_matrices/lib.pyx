@@ -55,13 +55,13 @@ cdef class ScoringMatrix:
             of every available matrix, which can be useful for checking 
             allowed matrix names::
 
-            >>> import argparse
-            >>> parser = argparse.ArgumentParser()
-            >>> _ = parser.add_argument(
-            ...     "--matrix", 
-            ...     choices=ScoringMatrix.BUILTIN_MATRICES,
-            ...     default="BLOSUM62" 
-            ... ) 
+                >>> import argparse
+                >>> parser = argparse.ArgumentParser()
+                >>> arg = parser.add_argument(
+                ...     "--matrix", 
+                ...     choices=ScoringMatrix.BUILTIN_MATRICES,
+                ...     default="BLOSUM62"
+                ... )
 
         """
         cdef size_t i
