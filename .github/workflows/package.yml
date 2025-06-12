@@ -18,6 +18,7 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS: aarch64
+        CIBW_BUILD: '*-manylinux_aarch64'
         CIBW_BUILD_VERBOSITY: 2
       with:
         output-dir: dist
@@ -41,6 +42,7 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS: x86_64
+        CIBW_BUILD: '*-manylinux_x86_64'
         CIBW_BUILD_VERBOSITY: 2
       with:
         output-dir: dist
@@ -64,6 +66,7 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS: x86_64
+        CIBW_BUILD: '*-macosx_x86_64'
         CIBW_BUILD_VERBOSITY: 2
       with:
         output-dir: dist
@@ -88,6 +91,7 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS: arm64
+        CIBW_BUILD: '*-macosx_arm64'
         CIBW_BUILD_VERBOSITY: 2
       with:
         output-dir: dist
@@ -111,6 +115,7 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS: AMD64
+        CIBW_BUILD: '*-win_amd64'
         CIBW_BUILD_VERBOSITY: 2
       with:
         output-dir: dist
