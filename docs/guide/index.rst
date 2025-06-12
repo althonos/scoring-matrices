@@ -8,6 +8,7 @@ This section contains guides and documents about ``scoring-matrices`` usage.
    :caption: Getting Started
 
     Installation <install>
+    Matrices <matrices>
 
 .. toctree::
    :maxdepth: 1

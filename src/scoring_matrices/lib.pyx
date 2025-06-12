@@ -36,15 +36,32 @@ cdef class ScoringMatrix:
     def from_name(cls, str name not None = "BLOSUM62"):
         """Load a built-in scoring matrix by name.
 
+        This library comes with built-in matrices including the PAM, BLOSUM,
+        VTML or BENNER matrix series. See the :doc:`Matrices </guide/matrices>`
+        page of the documentation for a comprehensive list. 
+
         Arguments:
             name (`str`): The name of the scoring matrix.
-
-        Example:
-            >>> blosum62 = ScoringMatrix.from_name("BLOSUM62")
 
         Raises:
             `ValueError`: When no scoring matrix with the given ``name``
                 can be found in the embedded matrix data.
+
+        Example:
+            >>> blosum62 = ScoringMatrix.from_name("BLOSUM62")
+
+        Note:
+            The `ScoringMatrix.BUILTIN_MATRICES` frozenset contains the names
+            of every available matrix, which can be useful for checking 
+            allowed matrix names::
+
+            >>> import argparse
+            >>> parser = argparse.ArgumentParser()
+            >>> _ = parser.add_argument(
+            ...     "--matrix", 
+            ...     choices=ScoringMatrix.BUILTIN_MATRICES,
+            ...     default="BLOSUM62" 
+            ... ) 
 
         """
         cdef size_t i
