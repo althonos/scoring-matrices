@@ -50,6 +50,10 @@ test = ["importlib-resources ; python_version < '3.9'"]
 build-dir = "build/{build_type}"
 editable.rebuild = true
 editable.verbose = false
+sdist.exclude = [
+    "docs",
+    "wheelhouse",
+]
 
 [[tool.scikit-build.overrides]]
 if.state = "editable"
