@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.2...HEAD
+
+
+## [v0.3.2] - 2025-06-16
+[v0.3.2]: https://github.com/althonos/scoring-matrices/compare/v0.3.1...v0.3.2
+
+### Fixed
+- Exclude `docs` folder from source distribution, causing issues with Windows builds.
 
 
 ## [v0.3.1] - 2025-06-12

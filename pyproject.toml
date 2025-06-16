@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "scoring-matrices"
-version = "0.3.1"
+version = "0.3.2"
 description = "Dependency free, Cython-compatible scoring matrices to use with biological sequences."
 readme = "README.md"
 requires-python = ">=3.7"
