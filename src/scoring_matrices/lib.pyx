@@ -187,8 +187,14 @@ cdef class ScoringMatrix:
     def __cinit__(self):
         self._data = NULL
         self._matrix = NULL
+        self._alphabet = NULL
         self._size = 0
         self._shape[0] = self._shape[1] = 0
+
+    def __dealloc__(self):
+        free(self._data)
+        free(self._matrix)
+        free(self._alphabet)
 
     def __init__(
         self,
