@@ -1,17 +1,17 @@
 [
     {
         "name": "v0.3 (latest)",
-        "version": "0.3.2",
-        "url": "https://pytantan.readthedocs.io/en/v0.3.2/"
+        "version": "0.3.3",
+        "url": "https://scoring-matrices.readthedocs.io/en/v0.3.3/"
     },
     {
         "name": "v0.2",
         "version": "0.2.2",
-        "url": "https://pytantan.readthedocs.io/en/v0.2.2/"
+        "url": "https://scoring-matrices.readthedocs.io/en/v0.2.2/"
     },
     {
         "name": "v0.1",
         "version": "0.1.1",
-        "url": "https://pytantan.readthedocs.io/en/v0.1.1/"
+        "url": "https://scoring-matrices.readthedocs.io/en/v0.1.1/"
     }
 ]

@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.2...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.3...HEAD
+
+
+## [v0.3.3] - 2025-08-13
+[v0.3.3]: https://github.com/althonos/scoring-matrices/compare/v0.3.2...v0.3.3
+
+### Fixed
+- Memory leak caused by `ScoringMatrix` not deallocating data on object deletion.
 
 
 ## [v0.3.2] - 2025-06-16
