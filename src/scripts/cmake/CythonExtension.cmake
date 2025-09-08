@@ -111,7 +111,11 @@ macro(cython_extension _name)
       target_compile_definitions(${_target} PUBLIC CYTHON_TRACE_NOGIL=1)
     endif()
   else()
+    # Disable assertions
     target_compile_definitions(${_target} PUBLIC CYTHON_WITHOUT_ASSERTIONS=1)
+    # Enable Cython limited API
+    target_compile_definitions(${_target} PUBLIC -DPy_LIMITED_API=0x03070000)
+    set_target_properties(${_target} PROPERTIES SUFFIX .abi3.so)
   endif()
 
   # Preserve the relative project structure in the install directory

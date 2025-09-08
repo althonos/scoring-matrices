@@ -5,7 +5,8 @@
 
 cimport cython
 from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE
-from cpython.memoryview cimport PyMemoryView_FromMemory
+from cpython.memoryview cimport PyMemoryView_FromMemory, PyMemoryView_GET_BUFFER
+from cpython.pycapsule cimport PyCapsule_New
 
 from libc.math cimport INFINITY, lrintf
 from libc.stdlib cimport free, realloc
@@ -280,23 +281,23 @@ cdef class ScoringMatrix:
             matrix = list(self)
         return (type(self), (matrix, self.alphabet, self.name))
 
-    def __getbuffer__(self, Py_buffer* buffer, int flags):
-        assert self._data != NULL
-
-        if flags & PyBUF_FORMAT:
-            buffer.format = b"f"
-        else:
-            buffer.format = NULL
-        buffer.buf = self._data
-        buffer.internal = NULL
-        buffer.itemsize = sizeof(float)
-        buffer.len = self._nitems * sizeof(float)
-        buffer.ndim = 2
-        buffer.obj = self
-        buffer.readonly = 1
-        buffer.shape = <Py_ssize_t*> &self._shape
-        buffer.suboffsets = NULL
-        buffer.strides = NULL
+    # def __getbuffer__(self, Py_buffer* buffer, int flags):
+    #     assert self._data != NULL
+    #
+    #     if flags & PyBUF_FORMAT:
+    #         buffer.format = b"f"
+    #     else:
+    #         buffer.format = NULL
+    #     buffer.buf = self._data
+    #     buffer.internal = NULL
+    #     buffer.itemsize = sizeof(float)
+    #     buffer.len = self._nitems * sizeof(float)
+    #     buffer.ndim = 2
+    #     buffer.obj = self
+    #     buffer.readonly = 1
+    #     buffer.shape = <Py_ssize_t*> &self._shape
+    #     buffer.suboffsets = NULL
+    #     buffer.strides = NULL
 
     def __len__(self):
         return self._size
@@ -357,6 +358,17 @@ cdef class ScoringMatrix:
             if self._data[i] != other_._data[i]:
                 return False
         return True
+
+    # --- Properties -----------------------------------------------------------
+
+    @property
+    def buffer(self):
+        """`memoryview`: A view over the matrix memory.
+        """
+        cdef const float* data = self.data_ptr()
+        cdef size_t       size = sizeof(float)*self._shape[0]*self._shape[1]
+        cdef memoryview   mem  = PyMemoryView_FromMemory(<char*> data, size, 0x100)
+        return mem.cast('f')
 
     # --- Private methods ------------------------------------------------------
     
