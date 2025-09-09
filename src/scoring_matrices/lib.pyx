@@ -26,6 +26,12 @@ cdef dict _INDICES = {
 
 cdef class ScoringMatrix:
     """A scoring matrix to use for biological sequence alignments.
+
+    Attributes:
+        alphabet (`str`): The alphabet of the scoring matrix.
+        name (`str` or `None`): The name of the scoring matrix, if any.
+        buffer (`memoryview`): A memoryview over the matrix data.
+
     """
 
     DEFAULT_ALPHABET = "ARNDCQEGHILKMFPSTWYVBZX*"
@@ -39,7 +45,7 @@ cdef class ScoringMatrix:
 
         This library comes with built-in matrices including the PAM, BLOSUM,
         VTML or BENNER matrix series. See the :doc:`Matrices </guide/matrices>`
-        page of the documentation for a comprehensive list. 
+        page of the documentation for a comprehensive list.
 
         Arguments:
             name (`str`): The name of the scoring matrix.
@@ -53,13 +59,13 @@ cdef class ScoringMatrix:
 
         Note:
             The `ScoringMatrix.BUILTIN_MATRICES` frozenset contains the names
-            of every available matrix, which can be useful for checking 
+            of every available matrix, which can be useful for checking
             allowed matrix names::
 
                 >>> import argparse
                 >>> parser = argparse.ArgumentParser()
                 >>> arg = parser.add_argument(
-                ...     "--matrix", 
+                ...     "--matrix",
                 ...     choices=ScoringMatrix.BUILTIN_MATRICES,
                 ...     default="BLOSUM62"
                 ... )
@@ -122,10 +128,10 @@ cdef class ScoringMatrix:
 
     @classmethod
     def from_diagonal(
-        cls, 
-        object diagonal, 
-        float mismatch_score=0.0, 
-        str alphabet not None = DEFAULT_ALPHABET, 
+        cls,
+        object diagonal,
+        float mismatch_score=0.0,
+        str alphabet not None = DEFAULT_ALPHABET,
         str name = None
     ):
         """Create a scoring matrix from a diagonal vector.
@@ -133,7 +139,7 @@ cdef class ScoringMatrix:
         Arguments:
             diagonal (sequence of `float`): The diagonal of the scoring
                 matrix, used to score character matches.
-            mismatch_score (`float`): The mismatch score to use for 
+            mismatch_score (`float`): The mismatch score to use for
                 every mismatches.
             alphabet (`str`): The alphabet to use with the scoring matrix.
             name (`str` or `None`): A name for the scoring matrix, if any.
@@ -165,7 +171,7 @@ cdef class ScoringMatrix:
     @classmethod
     def from_match_mismatch(
         cls,
-        float match_score = 1.0, 
+        float match_score = 1.0,
         float mismatch_score = -1.0,
         str alphabet not None = DEFAULT_ALPHABET,
         str name = None,
@@ -204,7 +210,7 @@ cdef class ScoringMatrix:
         str name = None,
     ):
         """__init__(self, matrix, alphabet="ARNDCQEGHILKMFPSTWYVBZX", name=None)\n--\n
-        
+
         Create a new scoring matrix.
 
         Arguments:
@@ -352,7 +358,7 @@ cdef class ScoringMatrix:
         return True
 
     # --- Private methods ------------------------------------------------------
-    
+
     cdef int _allocate(self, size_t size) except 1 nogil:
         cdef size_t i
 
@@ -486,7 +492,7 @@ cdef class ScoringMatrix:
 
         """
         assert self._data != NULL
-        
+
         cdef size_t i
         cdef float  m = -INFINITY
 
@@ -503,7 +509,7 @@ cdef class ScoringMatrix:
         permutation of the current alphabet, e.g. there is no loss of data.
 
         Arguments:
-            alphabet (`str`): The new alphabet to use for the columns. It 
+            alphabet (`str`): The new alphabet to use for the columns. It
                 must be a subset of ``self.alphabet``.
 
         Raises:
