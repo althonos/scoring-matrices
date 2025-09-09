@@ -232,10 +232,11 @@ cdef class ScoringMatrix:
                 allocated successfully.
 
         """
-        cdef ssize_t i
-        cdef ssize_t j
-        cdef float   x
-        cdef size_t  size = len(alphabet)
+        cdef ssize_t    i
+        cdef ssize_t    j
+        cdef float      x
+        cdef memoryview buf
+        cdef size_t     size = len(alphabet)
 
         if len(alphabet) != len(set(alphabet)):
             raise ValueError(f"Duplicate letters found in alphabet: {self.alphabet!r}")
@@ -255,6 +256,10 @@ cdef class ScoringMatrix:
                 raise ValueError("Matrix must contain one column per alphabet letter")
             for j, x in enumerate(row):
                 self._matrix[i][j] = x
+
+        if size > 0:
+            buf = PyMemoryView_FromMemory(<char*> self._matrix[0], sizeof(float)*self._nitems, 0x100)
+            self.buffer = buf.cast('f', self._shape)
 
     def __copy__(self):
         return self.copy()
@@ -281,23 +286,10 @@ cdef class ScoringMatrix:
             matrix = list(self)
         return (type(self), (matrix, self.alphabet, self.name))
 
-    # def __getbuffer__(self, Py_buffer* buffer, int flags):
-    #     assert self._data != NULL
-    #
-    #     if flags & PyBUF_FORMAT:
-    #         buffer.format = b"f"
-    #     else:
-    #         buffer.format = NULL
-    #     buffer.buf = self._data
-    #     buffer.internal = NULL
-    #     buffer.itemsize = sizeof(float)
-    #     buffer.len = self._nitems * sizeof(float)
-    #     buffer.ndim = 2
-    #     buffer.obj = self
-    #     buffer.readonly = 1
-    #     buffer.shape = <Py_ssize_t*> &self._shape
-    #     buffer.suboffsets = NULL
-    #     buffer.strides = NULL
+    def __buffer__(self, flags: int):
+        if (flags & 0x200) != 0:
+            raise TypeError("Cannot obtain a writable buffer")
+        return self.buffer
 
     def __len__(self):
         return self._size
@@ -358,17 +350,6 @@ cdef class ScoringMatrix:
             if self._data[i] != other_._data[i]:
                 return False
         return True
-
-    # --- Properties -----------------------------------------------------------
-
-    @property
-    def buffer(self):
-        """`memoryview`: A view over the matrix memory.
-        """
-        cdef const float* data = self.data_ptr()
-        cdef size_t       size = sizeof(float)*self._shape[0]*self._shape[1]
-        cdef memoryview   mem  = PyMemoryView_FromMemory(<char*> data, size, 0x100)
-        return mem.cast('f')
 
     # --- Private methods ------------------------------------------------------
     
