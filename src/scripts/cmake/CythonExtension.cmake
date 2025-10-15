@@ -122,9 +122,4 @@ macro(cython_extension _name)
   string(REGEX REPLACE "^${PYTHON_EXTENSIONS_SOURCE_DIR}/?" "" _dest_folder ${CMAKE_CURRENT_SOURCE_DIR})
   install(TARGETS ${_target} DESTINATION ${_dest_folder} )
   message(DEBUG "Install folder for extension ${_name}: ${_dest_folder}")
-
-  # Add the targets to the list of Cython extensions
-  get_property(_ext GLOBAL PROPERTY PYRODIGAL_CYTHON_EXTENSIONS)
-  list(APPEND _ext ${_target})
-  set_property(GLOBAL PROPERTY PYRODIGAL_CYTHON_EXTENSIONS ${_ext})
 endmacro()
