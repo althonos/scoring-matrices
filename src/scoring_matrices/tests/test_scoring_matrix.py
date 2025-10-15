@@ -90,8 +90,7 @@ class TestScoringMatrix(unittest.TestCase):
     @unittest.skipUnless(sys.version_info >= (3, 9), "memoryview not supported")
     def test_memoryview(self):
         aa = ScoringMatrix.from_name("BLOSUM50")
-        # mem = memoryview(aa)
-        mem = aa.buffer
+        mem = memoryview(aa)
         self.assertEqual(mem.shape, (24, 24))
         self.assertEqual(mem[0, 0], 5.0) # A <-> A
         self.assertEqual(mem[6, 6], 6.0) # E <-> E

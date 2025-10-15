@@ -4,7 +4,6 @@
 cdef class ScoringMatrix:
     cdef readonly str        name
     cdef readonly str        alphabet
-    cdef readonly memoryview buffer
 
     cdef size_t        _size
     cdef size_t        _nitems

@@ -30,7 +30,6 @@ cdef class ScoringMatrix:
     Attributes:
         alphabet (`str`): The alphabet of the scoring matrix.
         name (`str` or `None`): The name of the scoring matrix, if any.
-        buffer (`memoryview`): A memoryview over the matrix data.
 
     """
 
@@ -241,7 +240,6 @@ cdef class ScoringMatrix:
         cdef ssize_t    i
         cdef ssize_t    j
         cdef float      x
-        cdef memoryview buf
         cdef size_t     size = len(alphabet)
 
         if len(alphabet) != len(set(alphabet)):
@@ -262,10 +260,6 @@ cdef class ScoringMatrix:
                 raise ValueError("Matrix must contain one column per alphabet letter")
             for j, x in enumerate(row):
                 self._matrix[i][j] = x
-
-        if size > 0:
-            buf = PyMemoryView_FromMemory(<char*> self._matrix[0], sizeof(float)*self._nitems, 0x100)
-            self.buffer = buf.cast('f', self._shape)
 
     def __copy__(self):
         return self.copy()
@@ -291,11 +285,6 @@ cdef class ScoringMatrix:
         else:
             matrix = list(self)
         return (type(self), (matrix, self.alphabet, self.name))
-
-    def __buffer__(self, flags: int):
-        if (flags & 0x200) != 0:
-            raise TypeError("Cannot obtain a writable buffer")
-        return self.buffer
 
     def __len__(self):
         return self._size
@@ -356,6 +345,24 @@ cdef class ScoringMatrix:
             if self._data[i] != other_._data[i]:
                 return False
         return True
+
+    def __getbuffer__(self, Py_buffer* buffer, int flags):
+        assert self._data != NULL
+
+        if flags & PyBUF_FORMAT:
+            buffer.format = b"f"
+        else:
+            buffer.format = NULL
+        buffer.buf = self._data
+        buffer.internal = NULL
+        buffer.itemsize = sizeof(float)
+        buffer.len = self._nitems * sizeof(float)
+        buffer.ndim = 2
+        buffer.obj = self
+        buffer.readonly = 1
+        buffer.shape = <Py_ssize_t*> &self._shape
+        buffer.suboffsets = NULL
+        buffer.strides = NULL
 
     # --- Private methods ------------------------------------------------------
 

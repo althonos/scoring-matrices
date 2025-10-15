@@ -1,4 +1,4 @@
-find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+find_package(Python COMPONENTS Interpreter Development.Module ${SKBUILD_SABI_COMPONENT} REQUIRED)
 get_property(PYTHON_EXTENSIONS_SOURCE_DIR GLOBAL PROPERTY PYTHON_EXTENSIONS_SOURCE_DIR)
 
 # --- Detect PyInterpreterState_GetID ------------------------------------------
@@ -94,7 +94,13 @@ macro(cython_extension _name)
   if(CYTHON_EXTENSION_SOURCES)
     set(EXTENSION_SOURCES ${EXTENSION_SOURCES} ${CYTHON_EXTENSION_SOURCES})
   endif()
-  python_add_library(${_target} MODULE WITH_SOABI ${EXTENSION_SOURCES})
+  if((NOT "${SKBUILD_SABI_VERSION}" STREQUAL "") AND (NOT CMAKE_BUILD_TYPE STREQUAL Debug))
+    message(STATUS "Building in Limited API mode for Python: ${SKBUILD_SABI_VERSION}")
+    python_add_library(${_target} MODULE WITH_SOABI USE_SABI "${SKBUILD_SABI_VERSION}" ${EXTENSION_SOURCES})
+  else()
+    message(STATUS "Building in latest API mode for Python: ${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}")
+    python_add_library(${_target} MODULE WITH_SOABI ${EXTENSION_SOURCES})
+  endif()
   set_target_properties(${_target} PROPERTIES OUTPUT_NAME ${_name})
   set_target_properties(${_target} PROPERTIES CXX_STANDARD 17)
   target_include_directories(${_target} AFTER PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})  
@@ -111,11 +117,7 @@ macro(cython_extension _name)
       target_compile_definitions(${_target} PUBLIC CYTHON_TRACE_NOGIL=1)
     endif()
   else()
-    # Disable assertions
     target_compile_definitions(${_target} PUBLIC CYTHON_WITHOUT_ASSERTIONS=1)
-    # Enable Cython limited API
-    target_compile_definitions(${_target} PUBLIC -DPy_LIMITED_API=0x03070000)
-    set_target_properties(${_target} PROPERTIES SUFFIX .abi3.so)
   endif()
 
   # Preserve the relative project structure in the install directory
