@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - New `buffer` attribute to `ScoringMatrix` exposing a unique read-only `memoryview`.
-- `PFASUM31`, `PFAM43` and `PFASUM60` matrices ([#6](https://github.com/althonos/scoring-matrices/pull/6), by [@apcamargo](https://github.com/apcamargo)).
+- `PFASUM` matrices ([#6](https://github.com/althonos/scoring-matrices/pull/6), by [@apcamargo](https://github.com/apcamargo)).
 - `EDNAFULL` nucleotide matrix ([#7](https://github.com/althonos/scoring-matrices/pull/7), by [@apcamargo](https://github.com/apcamargo)).
 
 ### Changed
