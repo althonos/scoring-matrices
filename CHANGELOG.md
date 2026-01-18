@@ -6,7 +6,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.3...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.4...HEAD
+
+
+## [v0.3.4] - 2026-01-18
+[v0.3.4]: https://github.com/althonos/scoring-matrices/compare/v0.3.3...v0.3.4
+
+### Added
+- New `buffer` attribute to `ScoringMatrix` exposing a unique read-only `memoryview`.
+- `PFASUM31`, `PFAM43` and `PFASUM60` matrices ([#6](https://github.com/althonos/scoring-matrices/pull/6), by [@apcamargo](https://github.com/apcamargo)).
+- `EDNAFULL` nucleotide matrix ([#7](https://github.com/althonos/scoring-matrices/pull/7), by [@apcamargo](https://github.com/apcamargo)).
+
+### Changed
+- Compile wheel in Python Limited API mode for Python 3.11 and later.
+
+### Fixed
+- Issue with `pickle` protocol 5 causing issues with `ScoringMatrix` pickling.
+- Ensure documentation is built with extension in debug mode on ReadTheDocs.
 
 
 ## [v0.3.3] - 2025-08-13
