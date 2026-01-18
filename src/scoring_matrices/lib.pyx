@@ -245,7 +245,7 @@ cdef class ScoringMatrix:
         if len(alphabet) != len(set(alphabet)):
             raise ValueError(f"Duplicate letters found in alphabet: {self.alphabet!r}")
         if len(matrix) != size:
-            raise ValueError("Matrix must contain one row per alphabet letter")
+            raise ValueError(f"Matrix must contain one row per alphabet letter, got {len(matrix)}")
 
         self.alphabet = alphabet
         self.name = name
@@ -277,13 +277,7 @@ cdef class ScoringMatrix:
     def __reduce_ex__(self, int protocol):
         assert self._data != NULL
         assert self._matrix != NULL
-
-        # use out-of-band pickling (only supported since protocol 5, see
-        # https://docs.python.org/3/library/pickle.html#out-of-band-buffers)
-        if protocol >= 5:
-            matrix = pickle.PickleBuffer(self)
-        else:
-            matrix = list(self)
+        matrix = list(self)
         return (type(self), (matrix, self.alphabet, self.name))
 
     def __len__(self):
