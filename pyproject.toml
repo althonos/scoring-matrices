@@ -48,6 +48,8 @@ test = ["importlib-resources ; python_version < '3.9'"]
 
 [tool.scikit-build]
 build-dir = "build/{build_type}"
+wheel.py-api = "cp311"
+wheel.expand-macos-universal-tags = true
 editable.rebuild = true
 editable.verbose = false
 sdist.exclude = [
@@ -57,6 +59,10 @@ sdist.exclude = [
 
 [[tool.scikit-build.overrides]]
 if.state = "editable"
+cmake.build-type = "Debug"
+
+[[tool.scikit-build.overrides]]
+if.env.READTHEDOCS = "True"
 cmake.build-type = "Debug"
 
 [[tool.scikit-build-overrides]]

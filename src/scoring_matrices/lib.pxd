@@ -2,8 +2,8 @@
 # cython: language_level=3, linetrace=True, binding=True
 
 cdef class ScoringMatrix:
-    cdef readonly str name
-    cdef readonly str alphabet
+    cdef readonly str        name
+    cdef readonly str        alphabet
 
     cdef size_t        _size
     cdef size_t        _nitems
