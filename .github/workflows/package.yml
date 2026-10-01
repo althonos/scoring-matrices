@@ -34,10 +34,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
     - name: Build manylinux wheels
       uses: pypa/cibuildwheel@v3.0.0
       env:
@@ -58,10 +54,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
     - name: Build manylinux wheels
       uses: pypa/cibuildwheel@v3.0.0
       env:
@@ -82,11 +74,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
-        target: aarch64-apple-darwin
     - name: Build manylinux wheels
       uses: pypa/cibuildwheel@v3.0.0
       env:
@@ -107,10 +94,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
     - name: Build manylinux wheels
       uses: pypa/cibuildwheel@v3.0.0
       env:
@@ -122,6 +105,32 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: wheels-win32-x86_64
+        path: dist/*
+
+  wheel-wasm:
+    name: Build WebAssembly wheel
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.13
+    - name: Install Pyodide
+      run: python -m pip install pyodide-build
+    - name: Build wheel
+      run: pyodide build .
+    - name: Create virtualenv
+      run: pyodide venv .venv-pyodide
+    - name: Install WebAssembly wheel
+      run: .venv-pyodide/bin/pip install dist/scoring_matrices-*.whl
+    - name: Run tests
+      run: .venv-pyodide/bin/python -m unittest scoring_matrices.tests -vv
+    - uses: actions/upload-artifact@v4
+      with:
+        name: wheels-wasm
         path: dist/*
 
   sdist:
@@ -180,6 +189,7 @@ jobs:
     - wheel-linux-x86_64
     - wheel-macos-aarch64
     - wheel-macos-x86_64
+    - wheel-wasm
     - wheel-win32-x86_64
     steps:
     - name: Download source distribution
