@@ -6,11 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.4...HEAD
+[Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.5...HEAD
+
+
+## [v0.3.5] - 2026-10-01
+[v0.3.5]: https://github.com/althonos/scoring-matrices/compare/v0.3.4...v0.3.5
 
 ### Added
-- Support for infinite and negative infinite scores in matrix files.
-- `PAM1` matrix.
+- Support for infinite and negative infinite scores in matrix files (by [@apcamargo](https://github.com/apcamargo)).
+- `PAM1` matrix ([#8](https://github.com/althonos/scoring-matrices/pull/8), by [@apcamargo](https://github.com/apcamargo)).
+- Distribution of WebAssembly wheels built with Pyodide ([#9](https://github.com/althonos/scoring-matrices/issues/9)).
+
+### Fixed
+- Cython line tracing being enabled by default even on release mode.
+
 
 ## [v0.3.4] - 2026-01-18
 [v0.3.4]: https://github.com/althonos/scoring-matrices/compare/v0.3.3...v0.3.4
