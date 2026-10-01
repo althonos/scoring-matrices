@@ -8,7 +8,7 @@ from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE
 from cpython.memoryview cimport PyMemoryView_FromMemory, PyMemoryView_GET_BUFFER
 from cpython.pycapsule cimport PyCapsule_New
 
-from libc.math cimport INFINITY, lrintf
+from libc.math cimport INFINITY, isfinite, lrintf
 from libc.stdlib cimport free, realloc
 from libc.string cimport memcpy, memset
 
@@ -436,7 +436,7 @@ cdef class ScoringMatrix:
         with nogil:
             for i in range(self._nitems):
                 x = _data[i]
-                if lrintf(x) != x:
+                if not isfinite(x) or lrintf(x) != x:
                     integer = False
                     break
         return integer

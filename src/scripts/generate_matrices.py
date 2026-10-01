@@ -1,6 +1,13 @@
 import argparse
 import itertools
+import math
 import os
+
+
+def _c_float_literal(value):
+    if math.isinf(value):
+        return "INFINITY" if value > 0.0 else "-INFINITY"
+    return f"{value!r}F"
 
 
 def _parse_matrix_file(matrix_file):
@@ -25,12 +32,12 @@ def _generate_matrices(matrix_files, output_file):
 
     with open(output_file, "w") as dst:
         dst.write("#include <stddef.h>\n")
+        dst.write("#include <math.h>\n")
         names = sorted(matrices.keys())
         ids = [ name.replace(".", "_") for name in names ]
         
         dst.write(f"const char* _NAMES[{len(names) + 1}] = {{")
-        for name in names:
-            dst.write(f'"{name}", ')
+        dst.writelines(f'"{name}", ' for name in names)
         dst.write("NULL };\n")
 
         dst.write(f"const char* _ALPHABETS[{len(names) + 1}] = {{")
@@ -52,7 +59,7 @@ def _generate_matrices(matrix_files, output_file):
             for i, item in enumerate(itertools.chain.from_iterable(matrix)):
                 if i != 0:
                     dst.write(", ")
-                dst.write(f"{item!r}F")
+                dst.write(_c_float_literal(item))
             dst.write("};\n")
 
         dst.write(f"const float* _MATRICES[{len(names) + 1}] = {{")

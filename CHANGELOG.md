@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 [Unreleased]: https://github.com/althonos/scoring-matrices/compare/v0.3.4...HEAD
 
+### Added
+- Support for infinite and negative infinite scores in matrix files.
+- `PAM1` matrix.
 
 ## [v0.3.4] - 2026-01-18
 [v0.3.4]: https://github.com/althonos/scoring-matrices/compare/v0.3.3...v0.3.4

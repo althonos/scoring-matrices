@@ -50,6 +50,23 @@ class TestScoringMatrix(unittest.TestCase):
         self.assertEqual(m2['T', 'A'], -4.0)
         self.assertEqual(m2['A', 'A'], 5.0)
 
+    def test_from_str_infinity(self):
+        m = ScoringMatrix.from_str(
+            """
+                A   B
+            A   1  -inf
+            B  inf   2
+            """.strip()
+        )
+        self.assertEqual(m.alphabet, "AB")
+        self.assertEqual(m['A', 'A'], 1.0)
+        self.assertEqual(m['A', 'B'], float("-inf"))
+        self.assertEqual(m['B', 'A'], float("inf"))
+        self.assertEqual(m['B', 'B'], 2.0)
+        self.assertEqual(m.min(), float("-inf"))
+        self.assertEqual(m.max(), float("inf"))
+        self.assertFalse(m.is_integer())
+
     def test_from_diagonal(self):
         m = ScoringMatrix.from_diagonal([1, 2, 3, 4], 0.0, alphabet="ATGC")
         self.assertEqual(m[0], [1.0, 0.0, 0.0, 0.0])
